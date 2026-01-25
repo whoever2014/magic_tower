@@ -467,21 +467,21 @@ main.floors.base5=
                         "type": "if",
                         "condition": "core.getFlag('proof_lv')==1",
                         "true": [
-                            "\t[仙子,fairy]这是一阶勇者，他可以使你在战斗中提升小幅度的伤害。"
+                            "\t[仙子,fairy]你现在是【一阶勇者】。\\n效果：战斗中每次攻击伤害增加25%。"
                         ]
                     },
                     {
                         "type": "if",
                         "condition": "core.getFlag('proof_lv')==2",
                         "true": [
-                            "\t[仙子,fairy]现在是二阶勇者，他可以增加你在战斗中的攻击次数。"
+                            "\t[仙子,fairy]你现在是【二阶勇者】。\\n效果：战斗中攻击次数翻倍。"
                         ]
                     },
                     {
                         "type": "if",
                         "condition": "core.getFlag('proof_lv')==3",
                         "true": [
-                            "\t[仙子,fairy]现在是三阶勇者，你可以在战斗中造成无视敌人防御的伤害。"
+                            "\t[仙子,fairy]你现在是【三阶勇者】。\\n效果：每次攻击额外造成攻击力8%的伤害（无视防御）。"
                         ]
                     }
                 ]
@@ -494,21 +494,21 @@ main.floors.base5=
                         "type": "if",
                         "condition": "core.getFlag('proof_lv')==1",
                         "true": [
-                            "\t[仙子,fairy]这是一阶贤者，他可以使你在战斗中降低一部分收到的伤害。"
+                            "\t[仙子,fairy]你现在是【一阶贤者】。\\n效果：战斗中受到的伤害减少25%。"
                         ]
                     },
                     {
                         "type": "if",
                         "condition": "core.getFlag('proof_lv')==2",
                         "true": [
-                            "\t[仙子,fairy]现在是二阶贤者，它的护盾效果可以免疫你第一次收到的伤害。"
+                            "\t[仙子,fairy]你现在是【二阶贤者】。\\n效果：战斗中第一次受击时护盾抵挡并反弹20%伤害，之后减伤25%。"
                         ]
                     },
                     {
                         "type": "if",
                         "condition": "core.getFlag('proof_lv')==3",
                         "true": [
-                            "\t[仙子,fairy]现在是三阶勇者，你可以在战斗中造成无视敌人防御的伤害。"
+                            "\t[仙子,fairy]你现在是【三阶贤者】。\\n效果：战斗中第一次受击时护盾抵挡并对敌人造成其最大生命1/3的伤害，之后减伤25%。"
                         ]
                     }
                 ]
@@ -521,21 +521,21 @@ main.floors.base5=
                         "type": "if",
                         "condition": "core.getFlag('proof_lv')==1",
                         "true": [
-                            "\t[仙子,fairy]这是一阶贤者，他可以使你在战斗中降低一部分收到的伤害。"
+                            "\t[仙子,fairy]你现在是【一阶霸者】。\\n效果：防御力提升16%。"
                         ]
                     },
                     {
                         "type": "if",
                         "condition": "core.getFlag('proof_lv')==2",
                         "true": [
-                            "\t[仙子,fairy]现在是二阶贤者，它的护盾效果可以免疫你第一次收到的伤害。"
+                            "\t[仙子,fairy]你现在是【二阶霸者】。\\n效果：防御力提升16%，每次受击反击敌人物理伤害的25%。"
                         ]
                     },
                     {
                         "type": "if",
                         "condition": "core.getFlag('proof_lv')==3",
                         "true": [
-                            "\t[仙子,fairy]现在是三阶勇者，你可以在战斗中造成无视敌人防御的伤害。"
+                            "\t[仙子,fairy]你现在是【三阶霸者】。\\n效果：防御力提升16%，每次受击反击敌人物理伤害25%加敌人攻击力6%。"
                         ]
                     }
                 ]
@@ -1601,7 +1601,11 @@ main.floors.base5=
     "upFloor": null,
     "width": 13,
     "height": 13,
-    "autoEvent": {},
+    "autoEvent": {
+        "2,10": {
+            "2": null
+        }
+    },
     "underGround": true,
     "bgmap": [
 

@@ -34,6 +34,8 @@ var icons_4665ee12_3a1f_44a4_bea3_0fccba634dc1 =
 		"yellowWall": 3,
 		"whiteWall": 4,
 		"blueWall": 5,
+		"yellowHiddenWall": 3,
+		"walldoor2": 3,
 		"snowGround": 6,
 		"ground2": 7,
 		"ground3": 8,

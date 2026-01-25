@@ -413,7 +413,7 @@ events.prototype.openDoor = function (x, y, needKey, callback) {
 
 events.prototype._openDoor_check = function (id, x, y, needKey) {
     // 是否存在门或暗墙
-    if (!core.terrainExists(x, y, id) || !(id.endsWith("Door") || id.endsWith("Wall"))
+    if (!core.terrainExists(x, y, id) || !(id.endsWith("Door") || id.endsWith("Wall") || id.startsWith("walldoor"))
         || core.material.icons.animates[id] == null) {
         core.clearContinueAutomaticRoute();
         return false;
@@ -444,6 +444,38 @@ events.prototype._openDoor_animate = function (id, x, y, callback) {
     var locked = core.status.lockControl;
     core.lockControl();
     core.status.replay.animate = true;
+
+    // 暗墙：使用淡出效果
+    if (id.endsWith("Wall")) {
+        var blockInfo = core.getBlockInfo(id);
+        core.removeBlock(x, y);
+        var opacity = 1.0;
+        var fadeSpeed = 50;
+        var animate = window.setInterval(function () {
+            core.clearMap('event', 32 * x, 32 * y, 32, 32);
+            opacity -= 0.15;
+            if (opacity <= 0) {
+                clearInterval(animate);
+                delete core.animateFrame.asyncId[animate];
+                core.setAlpha('event', 1);
+                if (!locked) core.unLockControl();
+                core.status.replay.animate = false;
+                core.events.afterOpenDoor(id, x, y, callback);
+                return;
+            }
+            core.setAlpha('event', opacity);
+            if (blockInfo && blockInfo.image) {
+                core.drawImage('event', blockInfo.image,
+                    32 * blockInfo.posX, 32 * blockInfo.posY, 32, 32,
+                    32 * x, 32 * y, 32, 32);
+            }
+            core.setAlpha('event', 1);
+        }, core.status.replay.speed == 24 ? 1 : fadeSpeed / Math.max(core.status.replay.speed, 1));
+        core.animateFrame.asyncId[animate] = true;
+        return;
+    }
+
+    // 门：使用原有动画效果
     core.removeBlock(x, y);
     core.drawImage('event', core.material.images.animates, 0, 32 * door, 32, 32, 32 * x, 32 * y, 32, 32);
     var state = 0;

@@ -25,6 +25,9 @@ main.floors.main19=
 ],
     "firstArrive": [],
     "events": {
+        "1,1": [
+            "\t[老人,man]克制僵尸系的宝物藏在15层以上的某个巨大的十字架里。"
+        ],
         "7,10": [
             {
                 "type": "if",

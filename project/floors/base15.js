@@ -25,6 +25,9 @@ main.floors.base15=
 ],
     "firstArrive": [],
     "events": {
+        "11,1": [
+            "\t[老人,man]地下12层的骑士们守护着隐藏的红钥匙。"
+        ],
         "8,4": {
             "trigger": null,
             "enable": false,

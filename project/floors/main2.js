@@ -11,16 +11,16 @@ main.floors.main2=
     "map": [
     [  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1],
     [  1,121,  0,  1,  0,  1,  0,  0,  0, 82,  0, 88,  1],
-    [  1,122,  0, 85,  0,  1,222,  0,222,  1,  0,  0,  1],
-    [  1,  1,  1,  1,  0,  1,  1, 85,  1,  1,  1,  0,  1],
+    [  1,122,  0, 86,  0,  1,222,  0,222,  1,  0,  0,  1],
+    [  1,  1,  1,  1,  0,  1,  1, 86,  1,  1,  1,  0,  1],
     [  1,122,  0,  1,  0,  1,223,  0,  0,223,  1,  0,  1],
-    [  1,121,  0, 85,  0, 85,  0,  1,  1,  1,  1,  0,  1],
-    [  1,  1,  1,  1,  1,  1,  0, 85,  0,123,  1,  0,  1],
-    [  1,122,  0, 85,  0, 85,  0,  1,  1,  1,  1,  0,  1],
-    [  1,121,  0,  1,  0,  1,223,  0,  0,223,  1,  0,  1],
-    [  1,  1,  1,  1,  0,  1,  1, 85,  1,  1,  1,  0,  1],
-    [  1,121,  0, 85,  0,  1,  0,  0, 21,  1,  0,  0,  1],
-    [  1,122,  0,  1,  0,  1, 21,123, 21,  1,  0, 87,  1],
+    [  1,121,  0, 86,  0, 86,  0,  1,  1,  1,  1,  0,  1],
+    [  1,  1,  1,  1,  1,  1,  0,  1,  0,123,  1,  0,  1],
+    [  1,122,  0, 86,  0, 86,  0,  1,  0,  0,  1,  0,  1],
+    [  1,121,  0,  1,  0,  1,  0,  1, 86,  1,  1,  0,  1],
+    [  1,  1,  1,  1,  0,  1,223,  0,  0,223,  1,  0,  1],
+    [  1,121,  0, 86,  0,  1,  1, 86,  1,  1,  1,  0,  1],
+    [  1,122,  0,  1,  0,  1, 21,123, 21, 21,  1, 87,  1],
     [  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1]
 ],
     "firstArrive": [],
@@ -172,13 +172,6 @@ main.floors.main2=
             }
         ],
         "9,4": {
-            "trigger": null,
-            "enable": false,
-            "noPass": null,
-            "displayDamage": true,
-            "data": []
-        },
-        "9,8": {
             "trigger": null,
             "enable": false,
             "noPass": null,
@@ -340,7 +333,14 @@ main.floors.main2=
             "displayDamage": true,
             "data": []
         },
-        "6,8": {
+        "9,9": {
+            "trigger": null,
+            "enable": false,
+            "noPass": null,
+            "displayDamage": true,
+            "data": []
+        },
+        "6,9": {
             "trigger": null,
             "enable": false,
             "noPass": null,
@@ -640,92 +640,7 @@ main.floors.main2=
                 ]
             }
         ],
-        "9,8": [
-            {
-                "type": "if",
-                "condition": "flag:doorF2==3",
-                "true": [
-                    {
-                        "type": "openDoor",
-                        "loc": [
-                            7,
-                            3
-                        ]
-                    },
-                    {
-                        "type": "openDoor",
-                        "loc": [
-                            5,
-                            5
-                        ]
-                    },
-                    {
-                        "type": "openDoor",
-                        "loc": [
-                            5,
-                            7
-                        ]
-                    },
-                    {
-                        "type": "openDoor",
-                        "loc": [
-                            7,
-                            9
-                        ]
-                    },
-                    {
-                        "type": "openDoor",
-                        "loc": [
-                            7,
-                            6
-                        ]
-                    },
-                    {
-                        "type": "openDoor",
-                        "loc": [
-                            3,
-                            10
-                        ]
-                    },
-                    {
-                        "type": "openDoor",
-                        "loc": [
-                            3,
-                            7
-                        ]
-                    },
-                    {
-                        "type": "openDoor",
-                        "loc": [
-                            3,
-                            5
-                        ]
-                    },
-                    {
-                        "type": "openDoor",
-                        "loc": [
-                            3,
-                            2
-                        ]
-                    },
-                    {
-                        "type": "openDoor",
-                        "loc": [
-                            10,
-                            6
-                        ]
-                    }
-                ],
-                "false": [
-                    {
-                        "type": "addValue",
-                        "name": "flag:doorF2",
-                        "value": "1"
-                    }
-                ]
-            }
-        ],
-        "6,8": [
+        "6,4": [
             {
                 "type": "if",
                 "condition": "flag:doorF2==3",
@@ -823,7 +738,92 @@ main.floors.main2=
                 ]
             }
         ],
-        "6,4": [
+        "9,9": [
+            {
+                "type": "if",
+                "condition": "flag:doorF2==3",
+                "true": [
+                    {
+                        "type": "openDoor",
+                        "loc": [
+                            7,
+                            3
+                        ]
+                    },
+                    {
+                        "type": "openDoor",
+                        "loc": [
+                            5,
+                            5
+                        ]
+                    },
+                    {
+                        "type": "openDoor",
+                        "loc": [
+                            5,
+                            7
+                        ]
+                    },
+                    {
+                        "type": "openDoor",
+                        "loc": [
+                            7,
+                            9
+                        ]
+                    },
+                    {
+                        "type": "openDoor",
+                        "loc": [
+                            7,
+                            6
+                        ]
+                    },
+                    {
+                        "type": "openDoor",
+                        "loc": [
+                            3,
+                            10
+                        ]
+                    },
+                    {
+                        "type": "openDoor",
+                        "loc": [
+                            3,
+                            7
+                        ]
+                    },
+                    {
+                        "type": "openDoor",
+                        "loc": [
+                            3,
+                            5
+                        ]
+                    },
+                    {
+                        "type": "openDoor",
+                        "loc": [
+                            3,
+                            2
+                        ]
+                    },
+                    {
+                        "type": "openDoor",
+                        "loc": [
+                            10,
+                            6
+                        ]
+                    }
+                ],
+                "false": [
+                    {
+                        "type": "addValue",
+                        "name": "flag:doorF2",
+                        "value": "1"
+                    }
+                ]
+            }
+        ],
+        "6,9": [
             {
                 "type": "if",
                 "condition": "flag:doorF2==3",

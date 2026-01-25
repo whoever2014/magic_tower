@@ -26,7 +26,7 @@ main.floors.main10=
     "firstArrive": [],
     "events": {
         "6,7": [
-            "\t[骷髅队长,skeletonCaptain]你的好日子到头了！你中埋伏了！弟兄们给我上！",
+            "\t[骷髅队长,skeletonCaptain]哈哈哈！小子，你的好日子到头了！\\n早就听说有个不知天高地厚的家伙在塔里横冲直撞，今天就让你见识见识我骷髅军团的厉害！\\n弟兄们，给我上！",
             {
                 "type": "move",
                 "loc": [
@@ -85,7 +85,7 @@ main.floors.main10=
             "data": []
         },
         "6,3": [
-            "\t[骷髅队长,skeletonCaptain]你怎么能突出重围？我要和你决斗！",
+            "\t[骷髅队长,skeletonCaptain]什……什么！？你竟然杀出重围了！？\\n可恶……看来只能我亲自动手了！受死吧！",
             {
                 "type": "hide",
                 "time": 0
@@ -127,7 +127,7 @@ main.floors.main10=
     },
     "afterBattle": {
         "6,2": [
-            "\t[骷髅队长,skeletonCaptain]你还会遇到更多强大的对手。",
+            "\t[骷髅队长,skeletonCaptain]咳咳……没想到我竟会败在你手下……\\n但别高兴得太早，上面还有更强大的存在在等着你……哈哈哈……",
             {
                 "type": "addValue",
                 "name": "flag:beat10F",

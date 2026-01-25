@@ -13,7 +13,7 @@ main.floors.base16_2=
     [  1,  0,  0,  0,  1, 63,  0, 63,  1,246,  0,246,  1],
     [  1,  0, 26,  0,  1,  0,  1,  0,  1,  0,  0,  0,  0],
     [  1,  0,  0,  0,  1, 63,  0,  0,  1,246,  0,246,  1],
-    [  1,  1, 86,  1,  1,  1,  0,  1,  1,  1,  1,  1,  1],
+    [  1,  1, 85,  1,  1,  1,  0,  1,  1,  1,  1,  1,  1],
     [  1,223,  0,223,  1,  0, 32, 21, 81,204,  0,  0,  1],
     [  1,  0,  0,  0,  1,230, 27, 28,  1,  0,204, 31,  1],
     [  1,  0,  0,  0,  1, 81,  1,  1,  1,  1, 81,  1,  1],
@@ -125,7 +125,52 @@ main.floors.base16_2=
             "time": 500
         }
     },
-    "afterBattle": {},
+    "afterBattle": {
+        "1,5": [
+            {
+                "type": "if",
+                "condition": "flag:doorB16_2_guard==1",
+                "true": [
+                    {
+                        "type": "openDoor",
+                        "loc": [
+                            2,
+                            4
+                        ]
+                    }
+                ],
+                "false": [
+                    {
+                        "type": "setValue",
+                        "name": "flag:doorB16_2_guard",
+                        "value": "1"
+                    }
+                ]
+            }
+        ],
+        "3,5": [
+            {
+                "type": "if",
+                "condition": "flag:doorB16_2_guard==1",
+                "true": [
+                    {
+                        "type": "openDoor",
+                        "loc": [
+                            2,
+                            4
+                        ]
+                    }
+                ],
+                "false": [
+                    {
+                        "type": "setValue",
+                        "name": "flag:doorB16_2_guard",
+                        "value": "1"
+                    }
+                ]
+            }
+        ]
+    },
     "afterGetItem": {},
     "afterOpenDoor": {},
     "cannotMove": {},
