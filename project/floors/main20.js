@@ -198,46 +198,6 @@ main.floors.main20=
                 6,
                 11
             ]
-        },
-        "6,1": {
-            "floorId": "magic1",
-            "loc": [
-                4,
-                4
-            ],
-            "time": 500
-        },
-        "4,4": {
-            "floorId": "moyu8",
-            "loc": [
-                4,
-                4
-            ],
-            "time": 500
-        },
-        "8,4": {
-            "floorId": "moyu5",
-            "loc": [
-                11,
-                6
-            ],
-            "time": 500
-        },
-        "4,8": {
-            "floorId": "moyu1",
-            "loc": [
-                6,
-                8
-            ],
-            "time": 500
-        },
-        "8,8": {
-            "floorId": "moyu6",
-            "loc": [
-                6,
-                8
-            ],
-            "time": 500
         }
     },
     "afterBattle": {
@@ -430,15 +390,23 @@ main.floors.main20=
                 "type": "waitAsync"
             },
             "\t[吸血鬼,vampire]我身后便是魔域的入口……\\n不过，我倒很期待看到你在大法师面前绝望的表情。",
+            "\t[勇士,hero]魔域……那里一定藏着更强大的敌人。\\n但我不会退缩，总有一天我会踏入那扇门。",
             {
-                "type": "show",
-                "loc": [
-                    [
-                        6,
-                        1
-                    ]
+                "type": "confirm",
+                "text": "【第一章 完】\\n\\n恭喜你击败了吸血鬼伯爵！\\n\\n魔塔的冒险才刚刚开始……\\n更多精彩内容，敬请期待！\\n\\n—— 未 完 待 续 ——",
+                "yes": "结束游戏",
+                "no": "继续探索"
+            },
+            {
+                "type": "if",
+                "condition": "flag:input",
+                "true": [
+                    {
+                        "type": "win",
+                        "reason": "恭喜通关第一章！"
+                    }
                 ],
-                "time": 500
+                "false": []
             }
         ]
     },
