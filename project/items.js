@@ -398,7 +398,7 @@ var items_296f5d02_12fd_4166_a7c1_b5e830c9ee3a =
 		"moneyPocket": "core.insertAction([{ \"type\": \"setBlock\", \"number\": 63, \"loc\": [core.nextX(), core.nextY()] }])\ncore.drawMap(core.status.floorId, function () {\n\tcore.drawTip(core.material.items[itemId].name + '使用成功');\n});"
 	},
 	"canUseItemEffect": {
-		"book": "true",
+		"book": "core.getFlag('talkedToOldMan', 0) == 1",
 		"fly": "(function () {\n\tif (core.status.maps[core.status.floorId].canFlyTo) {\n\t\treturn true;\n\t}\n\tcore.playSound(\"warning.mp3\");\n\treturn false;\n})();",
 		"pickaxe": "var able = false;\nvar ids = [];\nfor (var i in core.status.thisMap.blocks) {\n\tvar block = core.status.thisMap.blocks[i];\n\tif (core.isset(block.event) && !(core.isset(block.enable) && !block.enable) &&\n\t\t(block.event.id == 'yellowWall' || block.event.id == 'whiteWall' || block.event.id == 'blueWall')) // 能破哪些墙\n\t{\n\t\t// 四个方向\n\t\tif (core.flags.pickaxeFourDirections) {\n\t\t\tif (Math.abs(block.x - core.status.hero.loc.x) + Math.abs(block.y - core.status.hero.loc.y) <= 1) {\n\t\t\t\tids.push(i);\n\t\t\t}\n\t\t} else {\n\t\t\tif (block.x == core.nextX() && block.y == core.nextY()) {\n\t\t\t\tids.push(i);\n\t\t\t}\n\t\t}\n\t}\n}\nif (ids.length > 0) {\n\tcore.status.event.data = ids;\n\table = true;\n}\nable",
 		"icePickaxe": "var able=false;\nvar nextfID=core.getBlockId(core.nextX(),core.nextY());\nif(nextfID==\"specialDoor\")\n\table=true;\nable",
