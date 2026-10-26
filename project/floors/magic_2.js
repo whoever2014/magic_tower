@@ -49,45 +49,6 @@ main.floors.magic_2=
                 "time": 300
             },
             "\t[勇士,hero]被魔王夺走剑和盾，在牢房里醒来，被小偷带出去……\n这就是队长当年走过的路。他跟我讲这段的时候，还在笑。"
-        ],
-        "11,7": [
-            {
-                "type": "choices",
-                "text": "\t[商人,woman]谢谢你救了我。我能用祝福魔法，把你的攻击力和防御力提升 3%。现在就提升吗？",
-                "choices": [
-                    {
-                        "text": "现在提升",
-                        "action": [
-                            {
-                                "type": "playSound",
-                                "name": "item.mp3"
-                            },
-                            {
-                                "type": "setValue",
-                                "name": "status:atk",
-                                "value": "status:atk+Math.round(status:atk*0.03)"
-                            },
-                            {
-                                "type": "setValue",
-                                "name": "status:def",
-                                "value": "status:def+Math.round(status:def*0.03)"
-                            },
-                            {
-                                "type": "tip",
-                                "text": "你受到了祝福，攻击和防御都提升了3%"
-                            },
-                            {
-                                "type": "hide",
-                                "time": 500
-                            }
-                        ]
-                    },
-                    {
-                        "text": "等会再说",
-                        "action": []
-                    }
-                ]
-            }
         ]
     },
     "changeFloor": {
@@ -257,6 +218,10 @@ main.floors.magic_2=
     [  1, 87,  1, 32,  0, 86,  0,  0,  0, 86,  0,  0,  1],
     [  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1]
 ],
-    "bgmap": [],
-    "fgmap": []
+    "bgmap": [
+
+],
+    "fgmap": [
+
+]
 }

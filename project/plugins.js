@@ -1564,6 +1564,7 @@ var plugins_bb40132b_638b_4a9f_b028_d3fe47acc8d1 =
 	};
 	var _changingFloor = core.events.changingFloor;
 	core.events.changingFloor = function (floorId, heroLoc, fromLoad) {
+		if (main.mode != 'play') return _changingFloor.apply(this, arguments); // 编辑器里不改地图
 		if (!fromLoad && core.status.floorId && core.status.floorId != floorId) core.plugin.reviveFloor(core.status.floorId);
 		if (!fromLoad) {
 			var from = core.status.floorId, toMagic = core.plugin.inMagic(floorId), fromMagic = core.plugin.inMagic(from);
@@ -1591,10 +1592,11 @@ var plugins_bb40132b_638b_4a9f_b028_d3fe47acc8d1 =
 			}
 		}
 		// 最终战（地下 17 层中央）旧存档兼容：以前按 8 面计数。进层时按上下左右四格是否已清空重新计数，四面都清空就补上封印
-		if (/^base_(plus_)?17_c$/.test(floorId) && core.hasFlag('diceShown') && !core.hasFlag('zenoSealed') && core.status.maps && core.status.maps[floorId]) {
+		var d17 = floorId == 'base_17' ? 12 : 0; // 一周目地下 17 层已拼成大地图，中央块偏移 12
+		if (/^base_(plus_)?17(_c)?$/.test(floorId) && core.hasFlag('diceShown') && !core.hasFlag('zenoSealed') && core.status.maps && core.status.maps[floorId]) {
 			var dm = core.status.maps[floorId], cleared = 0;
 			[[6, 5], [5, 6], [7, 6], [6, 7]].forEach(function (p) {
-				var still = (dm.blocks || []).some(function (b) { return b.x == p[0] && b.y == p[1] && !b.disable && b.event && b.event.id == 'yellowKing'; });
+				var still = (dm.blocks || []).some(function (b) { return b.x == p[0] + d17 && b.y == p[1] + d17 && !b.disable && b.event && b.event.id == 'yellowKing'; });
 				if (!still) cleared++;
 			});
 			core.setFlag('diceCross', Math.max(core.getFlag('diceCross', 0), cleared));
@@ -1641,17 +1643,20 @@ var plugins_bb40132b_638b_4a9f_b028_d3fe47acc8d1 =
 	var B16_OFF = { nw: [0, 0], n: [12, 0], ne: [24, 0], w: [0, 12], c: [12, 12], e: [24, 12], sw: [0, 24], s: [12, 24], se: [24, 24] }; // 相邻块共用边墙，步长 12
 	var _changeFloorR2 = core.events.changeFloor;
 	core.events.changeFloor = function (floorId, stair, heroLoc, time, callback, fromLoad) {
+		if (main.mode != 'play') return _changeFloorR2.apply(this, arguments); // 编辑器里不做任何换算
 		if (!fromLoad && core.getFlag('round2', 0) == 1 && typeof floorId == 'string') {
 			var m = floorId.match(/^(floor|base)_(.+)$/);
 			if (m && core.floors[m[1] + '_plus_' + m[2]]) floorId = m[1] + '_plus_' + m[2];
 		}
-		// 一周目地下 16 层已拼成一张大地图 base_16：去旧的 9 块小地图的，一律换算到大地图上
-		var m16 = !fromLoad && typeof floorId == 'string' && floorId.match(/^base_16_(nw|n|ne|w|c|e|sw|s|se)$/);
-		if (m16 && core.floors.base_16) {
-			var o16 = B16_OFF[m16[1]];
-			floorId = 'base_16';
+		// 一周目地下 16、17 层已各拼成一张大地图（base_16 / base_17）：去旧的 9 块小地图的，一律换算到大地图上
+		var m16 = !fromLoad && typeof floorId == 'string' && floorId.match(/^base_(16|17)_(nw|n|ne|w|c|e|sw|s|se)$/);
+		if (m16 && m16[1] == '17' && !core.plugin.b17Open()) m16 = null; // 地下 17 层：打败魔王前只有中央小地图
+		if (m16 && core.floors['base_' + m16[1]]) {
+			var o16 = B16_OFF[m16[2]];
+			var big = 'base_' + m16[1];
+			floorId = big;
 			if (heroLoc && heroLoc.x != null) heroLoc = { x: heroLoc.x + o16[0], y: heroLoc.y + o16[1], direction: heroLoc.direction };
-			else { heroLoc = { x: 20, y: 16 }; stair = null; }
+			else { heroLoc = big == 'base_16' ? { x: 20, y: 16 } : { x: 18, y: 18 }; stair = null; }
 		}
 		return _changeFloorR2.call(this, floorId, stair, heroLoc, time, callback, fromLoad);
 	};
@@ -1701,19 +1706,54 @@ var plugins_bb40132b_638b_4a9f_b028_d3fe47acc8d1 =
 			9: ["\t[大法师,blackMagician]……好吧。九个角都碎了。上来吧，我在最上面等你。"]
 		}
 	};
+	// 地下 17 层（一周目）：打败魔王前只有中央小地图 base_17_c；打败后展开成 37×37 大地图 base_17
+	this.b17Open = function () {
+		if (core.hasFlag('zenoBeaten')) return true;
+		var c = core.status.maps && core.status.maps.base_17_c;
+		// 旧存档：魔王已经不在了（打败过）
+		return !!(c && core.hasFlag('diceShown') && !(c.blocks || []).some(function (b) { return b.event && b.event.id == 'redKing' && !b.disable; }));
+	};
+	// 进地下 17 层的目标：传入大地图坐标，返回 {id,x,y}；打败魔王前只有中央那块能去
+	this.b17Target = function (x, y) {
+		if (core.plugin.b17Open()) return { id: 'base_17', x: x, y: y };
+		if (x >= 12 && x <= 24 && y >= 12 && y <= 24) return { id: 'base_17_c', x: x - 12, y: y - 12 };
+		return null;
+	};
+	this.openB17 = function () {
+		if (core.status.floorId != 'base_17_c' || core.getFlag('round2', 0) == 1) return;
+		core.setFlag('zenoBeaten', 1);
+		var B = core.status.maps.base_17, C = core.status.maps.base_17_c;
+		if (!B || !C) return;
+		// 中央这块当前的样子原样搬进大地图（打掉的魔将、物资、开着的门都保留）
+		B.blocks = (B.blocks || []).filter(function (b) { return !(b.x >= 12 && b.x <= 24 && b.y >= 12 && b.y <= 24); })
+			.concat((C.blocks || []).map(function (b) { var n = core.clone(b); n.x += 12; n.y += 12; return n; }));
+		var h = core.status.hero.loc;
+		core.changeFloor('base_17', null, { x: h.x + 12, y: h.y + 12, direction: h.direction }, 0);
+	};
+	var _afterBattleZeno = core.events.afterBattle;
+	core.events.afterBattle = function (enemyId, x, y, callback) {
+		var rid = enemyId == '__testMonster__' ? ((core.material.enemys.__testMonster__ || {}).id || enemyId) : enemyId;
+		var r = _afterBattleZeno.apply(this, arguments);
+		if (rid == 'redKing' && core.status.floorId == 'base_17_c' && core.getFlag('round2', 0) != 1)
+			core.insertAction([{ "type": "sleep", "time": 300 }, { "type": "function", "function": "function(){\ncore.plugin.openB17();\n}" }], null, null, null, true);
+		return r;
+	};
 	var _afterChangeFloorB16 = core.events.afterChangeFloor;
 	core.events.afterChangeFloor = function (floorId, fromLoad) {
 		var r = _afterChangeFloorB16.apply(this, arguments);
-		var m = fromLoad && typeof floorId == 'string' && floorId.match(/^base_16_(nw|n|ne|w|c|e|sw|s|se)$/);
-		if (m && core.floors.base_16) {
-			var o = B16_OFF[m[1]], h = core.status.hero.loc;
-			setTimeout(function () { core.changeFloor('base_16', null, { x: h.x + o[0], y: h.y + o[1], direction: h.direction }, 0); }, 100);
+		if (main.mode != 'play') return r;
+		var m = fromLoad && typeof floorId == 'string' && floorId.match(/^base_(16|17)_(nw|n|ne|w|c|e|sw|s|se)$/);
+		if (m && m[1] == '17' && !core.plugin.b17Open()) m = null;
+		if (m && core.floors['base_' + m[1]]) {
+			var o = B16_OFF[m[2]], h = core.status.hero.loc, big = 'base_' + m[1];
+			setTimeout(function () { core.changeFloor(big, null, { x: h.x + o[0], y: h.y + o[1], direction: h.direction }, 0); }, 100);
 		}
 		return r;
 	};
 	var _afterChangeFloorPhant = core.events.afterChangeFloor;
 	core.events.afterChangeFloor = function (floorId, fromLoad) {
 		var r = _afterChangeFloorPhant.apply(this, arguments);
+		if (main.mode != 'play') return r;
 		if (!fromLoad && /^phant_\d+$/.test(floorId || '') && core.getFlag('round2', 0) != 1) {
 			var todo = [];
 			if (!core.hasFlag('phantIntro')) { core.setFlag('phantIntro', 1); todo = todo.concat(PHANT_STORY.intro); }

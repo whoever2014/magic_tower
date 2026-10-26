@@ -367,7 +367,7 @@ editor.prototype.updateMap = function () {
         if (tileInfo == 0) return;
 
         if (typeof(tileInfo) == typeof([][0]) || !Object.prototype.hasOwnProperty.call(tileInfo, 'idnum')) {//未定义块画红块
-            if (typeof(tileInfo) != typeof([][0]) && Object.prototype.hasOwnProperty.call(tileInfo, 'images')) {
+            if (typeof(tileInfo) != typeof([][0]) && Object.prototype.hasOwnProperty.call(tileInfo, 'images') && core.material.images[tileInfo.images]) {
                 ctx.drawImage(core.material.images[tileInfo.images], 0, tileInfo.y * 32, 32, 32, x * 32, y * 32, 32, 32);
             }
             ctx.strokeStyle = 'red';
@@ -408,13 +408,18 @@ editor.prototype.updateLastUsedMap = function () {
         var x = i % core.__SIZE__, y = parseInt(i / core.__SIZE__);
         var info = editor.uivalues.lastUsed[i];
         if (!info || !info.images) continue;
+        // 最近使用列表里可能存着已经删除/改名的素材，找不到就跳过，不要让整个编辑器崩掉
+        var img = info.isTile ? (core.material.images.tilesets || {})[info.images]
+            : info.images == 'autotile' ? (core.material.images.autotile || {})[info.id]
+            : core.material.images[info.images];
+        if (!img) continue;
         if (info.isTile) {
-            ctx.drawImage(core.material.images.tilesets[info.images], 32 * info.x, 32 * info.y, 32, 32, x*32, y*32, 32, 32);
+            ctx.drawImage(img, 32 * info.x, 32 * info.y, 32, 32, x*32, y*32, 32, 32);
         } else if (info.images == 'autotile') {
-            ctx.drawImage(core.material.images.autotile[info.id], 0, 0, 32, 32, x * 32, y * 32, 32, 32);
+            ctx.drawImage(img, 0, 0, 32, 32, x * 32, y * 32, 32, 32);
         } else {
             var per_height = info.images.endsWith('48') ? 48 : 32;
-            ctx.drawImage(core.material.images[info.images], 0, info.y * per_height, 32, per_height, x * 32, y * 32, 32, 32);
+            ctx.drawImage(img, 0, info.y * per_height, 32, per_height, x * 32, y * 32, 32, 32);
         }
         if (selectBox.isSelected() && editor.info.id == info.id) {
             ctx.strokeRect(32 * x + 2, 32 * y + 2, 28, 28);
