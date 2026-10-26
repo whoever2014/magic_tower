@@ -1266,6 +1266,9 @@ var functions_d6ad677b_427a_4623_b50f_a445a3b0ef8a =
 			// 读档操作；从存储中读取了内容后的行为
 
 			// 重置游戏和路线
+			// 先把楼层切到这份存档的周目（一套楼层 + 周目差异），再按楼层解出地图状态
+			var _rf = (data.hero && data.hero.flags) || {};
+			if (core.plugin.applyRound) core.plugin.applyRound(_rf.round || (_rf.round2 == 1 ? 2 : 1));
 			core.resetGame(data.hero, data.hard, data.floorId, core.maps.loadMap(data.maps), data.values);
 			core.status.route = core.decodeRoute(data.route);
 			if (!(core.status.route instanceof Array)) core.status.route = []; // 抢救过的存档录像为空

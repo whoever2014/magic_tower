@@ -53,13 +53,13 @@ main.floors.mota_5=
                                     1
                                 ]
                             ],
-                            "floorId": "floor_plus_20",
+                            "floorId": "floor_20",
                             "remove": true,
                             "time": 0
                         },
                         {
                             "type": "changeFloor",
-                            "floorId": "floor_plus_20",
+                            "floorId": "floor_20",
                             "loc": [
                                 6,
                                 2

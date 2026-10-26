@@ -4,26 +4,7 @@ var data_a1e2fb4a_e986_4524_b0da_9b7ba7c0874d =
 		"floorIds": [
 			"test",
 			"underlake",
-			"underlake_plus",
-			"base_17_ne",
-			"base_17_e",
-			"base_17_se",
-			"base_17_s",
-			"base_17_sw",
-			"base_17_w",
-			"base_17_nw",
-			"base_17_n",
-			"base_17_c",
 			"base_17",
-			"base_16_ne",
-			"base_16_e",
-			"base_16_se",
-			"base_16_s",
-			"base_16_sw",
-			"base_16_w",
-			"base_16_nw",
-			"base_16_n",
-			"base_16_c",
 			"base_16",
 			"base_15",
 			"base_14",
@@ -62,13 +43,11 @@ var data_a1e2fb4a_e986_4524_b0da_9b7ba7c0874d =
 			"floor_19",
 			"floor_20",
 			"stars",
-			"stars_plus",
 			"mota_1",
 			"mota_2",
 			"mota_3",
 			"mota_4",
 			"mota_5",
-			"mota_plus_5",
 			"magic_1",
 			"magic_2",
 			"magic_3",
@@ -82,70 +61,6 @@ var data_a1e2fb4a_e986_4524_b0da_9b7ba7c0874d =
 			"phant_8",
 			"phant_9",
 			"phant_10",
-			"phant_plus_1",
-			"phant_plus_2",
-			"phant_plus_3",
-			"phant_plus_4",
-			"phant_plus_5",
-			"phant_plus_6",
-			"phant_plus_7",
-			"phant_plus_8",
-			"phant_plus_9",
-			"phant_plus_10",
-			"base_plus_17_ne",
-			"base_plus_17_e",
-			"base_plus_17_se",
-			"base_plus_17_s",
-			"base_plus_17_sw",
-			"base_plus_17_w",
-			"base_plus_17_nw",
-			"base_plus_17_n",
-			"base_plus_17_c",
-			"base_plus_16_ne",
-			"base_plus_16_e",
-			"base_plus_16_se",
-			"base_plus_16_s",
-			"base_plus_16_sw",
-			"base_plus_16_w",
-			"base_plus_16_nw",
-			"base_plus_16_n",
-			"base_plus_16_c",
-			"base_plus_15",
-			"base_plus_14",
-			"base_plus_13",
-			"base_plus_12",
-			"base_plus_11",
-			"base_plus_10",
-			"base_plus_9",
-			"base_plus_8",
-			"base_plus_7",
-			"base_plus_6",
-			"base_plus_5",
-			"base_plus_4",
-			"base_plus_3",
-			"base_plus_2",
-			"base_plus_1",
-			"floor_plus_0",
-			"floor_plus_1",
-			"floor_plus_2",
-			"floor_plus_3",
-			"floor_plus_4",
-			"floor_plus_5",
-			"floor_plus_6",
-			"floor_plus_7",
-			"floor_plus_8",
-			"floor_plus_9",
-			"floor_plus_10",
-			"floor_plus_11",
-			"floor_plus_12",
-			"floor_plus_13",
-			"floor_plus_14",
-			"floor_plus_15",
-			"floor_plus_16",
-			"floor_plus_17",
-			"floor_plus_18",
-			"floor_plus_19",
-			"floor_plus_20",
 			"honor",
 			"bestiary_1",
 			"bestiary_2"
@@ -1467,7 +1382,7 @@ var data_a1e2fb4a_e986_4524_b0da_9b7ba7c0874d =
 				"true": [
 					{
 						"type": "function",
-						"function": "function(){\nwindow.__bestiaryStart = false;\ncore.firstData.floorId = 'bestiary_1';\ncore.setFlag('round2', 0);\n}"
+						"function": "function(){\nwindow.__bestiaryStart = false;\ncore.firstData.floorId = 'bestiary_1';\ncore.setFlag('round2', 0);\ncore.setFlag('round', 1);\ncore.plugin.applyRound(1, true);\n}"
 					}
 				],
 				"false": [
@@ -1480,7 +1395,7 @@ var data_a1e2fb4a_e986_4524_b0da_9b7ba7c0874d =
 								"action": [
 									{
 										"type": "function",
-										"function": "function(){\ncore.firstData.floorId = 'floor_0';\ncore.setFlag('round2', 0);\n// 一周目开局：手持勇者之剑与勇者之盾（3 楼被魔王夺走）\ncore.status.hero.atk = 130;\ncore.status.hero.def = 130;\ncore.setFlag('curWeapon', 'sword5');\ncore.setFlag('curArmor', 'shield5');\ncore.setFlag('startGear', 1);\ncore.status.hero.battleAnimate = 'sword';\n}"
+										"function": "function(){\ncore.firstData.floorId = 'floor_0';\ncore.setFlag('round2', 0);\ncore.setFlag('round', 1);\ncore.plugin.applyRound(1, true);\n// 一周目开局：手持勇者之剑与勇者之盾（3 楼被魔王夺走）\ncore.status.hero.atk = 130;\ncore.status.hero.def = 130;\ncore.setFlag('curWeapon', 'sword5');\ncore.setFlag('curArmor', 'shield5');\ncore.setFlag('startGear', 1);\ncore.status.hero.battleAnimate = 'sword';\n}"
 									}
 								]
 							},
@@ -1489,7 +1404,7 @@ var data_a1e2fb4a_e986_4524_b0da_9b7ba7c0874d =
 								"action": [
 									{
 										"type": "function",
-										"function": "function(){\ncore.firstData.floorId = 'floor_plus_0';\ncore.setFlag('round2', 1);\n}"
+										"function": "function(){\ncore.firstData.floorId = 'floor_0';\ncore.setFlag('round2', 1);\ncore.setFlag('round', 2);\n// 二周目：一周目楼层 + project/rounds/round2.js 里的差异\ncore.plugin.applyRound(2, true);\n}"
 									}
 								]
 							},
@@ -1505,7 +1420,7 @@ var data_a1e2fb4a_e986_4524_b0da_9b7ba7c0874d =
 								"action": [
 									{
 										"type": "function",
-										"function": "function(){\ncore.firstData.floorId = 'honor';\ncore.setFlag('round2', 0);\n}"
+										"function": "function(){\ncore.firstData.floorId = 'honor';\ncore.setFlag('round2', 0);\ncore.setFlag('round', 1);\ncore.plugin.applyRound(1, true);\n}"
 									}
 								]
 							}

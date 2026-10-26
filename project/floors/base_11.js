@@ -279,7 +279,7 @@ main.floors.base_11=
             "time": 500
         },
         "6,1": {
-            "floorId": "floor_plus_0",
+            "floorId": "floor_0",
             "loc": [
                 6,
                 11
