@@ -69,7 +69,6 @@ var data_a1e2fb4a_e986_4524_b0da_9b7ba7c0874d =
 			"mota_4",
 			"mota_5",
 			"mota_plus_5",
-			"magic_0",
 			"magic_1",
 			"magic_2",
 			"magic_3",

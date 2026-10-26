@@ -8,7 +8,7 @@ var plugins_bb40132b_638b_4a9f_b028_d3fe47acc8d1 =
 	// 读取存档时把旧楼层名换成新名，已删除的楼层直接丢弃。
 	(function () {
 		var DIR = ['c', 'n', 'nw', 'w', 'sw', 's', 'se', 'e', 'ne'];
-		var DELETED = { base18: 1, base22: 1, base25: 1, baseplus18: 1, baseplus22: 1, baseplus24: 1, baseplus25: 1, MOTA6: 1, MOTA7: 1, MOTA8: 1 };
+		var DELETED = { magic_0: 1, base18: 1, base22: 1, base25: 1, baseplus18: 1, baseplus22: 1, baseplus24: 1, baseplus25: 1, MOTA6: 1, MOTA7: 1, MOTA8: 1 };
 		function rename(id) {
 			var m;
 			if (typeof id !== 'string') return id;
