@@ -449,7 +449,7 @@ editor.prototype.drawInitData = function (icons) {
     editor.uivalues.foldPerCol = core.getLocalStorage('foldPerCol', 50);
     // var imgNames = Object.keys(images);  //还是固定顺序吧；
     editor.uivalues.lastUsed = core.getLocalStorage("lastUsed", []);
-    var imgNames = ["terrains", "animates", "enemys", "enemy48", "items", "npcs", "npc48", "autotile"];
+    var imgNames = ["terrains", "animates", "enemys", "enemy48", "items", "npcs", "autotile"]; // npc48 未使用，编辑器中隐藏
 
     for (var ii = 0; ii < imgNames.length; ii++) {
         var img = imgNames[ii], tempy = 0;

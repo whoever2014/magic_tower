@@ -27,7 +27,7 @@ main.floors.MOTA10=
     "events": {},
     "changeFloor": {
         "6,11": {
-            "floorId": "main10",
+            "floorId": "floor_10",
             "loc": [
                 1,
                 1

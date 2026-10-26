@@ -27,7 +27,7 @@ main.floors.xingkong=
     "events": {},
     "changeFloor": {
         "12,0": {
-            "floorId": "main20",
+            "floorId": "floor_20",
             "loc": [
                 6,
                 6

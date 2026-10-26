@@ -144,7 +144,7 @@ var functions_d6ad677b_427a_4623_b50f_a445a3b0ef8a =
 	// 检查重生怪并重置
 	if (!fromLoad) {
 		core.status.maps[floorId].blocks.forEach(function (block) {
-			if (block.disable && core.enemys.hasSpecial(block.event.id, 23)) {
+			if (block.disable && core.enemys.hasSpecial(block.event.id, 23) && !core.hasFlag('steel_' + floorId)) { // 本层铁怪倒下后不再重生
 				block.disable = false;
 			}
 		});
@@ -161,38 +161,42 @@ var functions_d6ad677b_427a_4623_b50f_a445a3b0ef8a =
 	// var bgm = core.status.maps[floorId].bgm;
 	// if (bgm instanceof Array) bgm = bgm[0];
 	if (!core.hasFlag("__bgm__")) {
+		// 二周目楼层与一周目对应楼层使用相同的 BGM
+		var _bgmFloorId = floorId;
+		floorId = floorId.replace(/^base_plus_/, "base_").replace(/^floor_plus_/, "floor_");
 		// }
-		if (floorId.startsWith("MOTA") || floorId == "main0") {
+		if (floorId.startsWith("mota_") || floorId.startsWith("MOTA") || floorId == "floor_0") {
 			core.playBgm("mota.mp3");
 		}
-		else if (floorId=="main1") core.playBgm("section1.mp3")
-		else if (floorId=="main2") core.playBgm("section1.mp3")
-		else if (floorId=="main3") core.playBgm("section1.mp3")
-		else if (floorId=="main4") core.playBgm("section1.mp3")
-		else if (floorId=="main5") core.playBgm("section1.mp3")
-		else if (floorId=="main6") core.playBgm("section1.mp3")
-		else if (floorId=="main7") core.playBgm("section1.mp3")
-		else if (floorId=="main8") core.playBgm("section1.mp3")
-		else if (floorId=="main9") core.playBgm("section1.mp3")
-		else if (floorId=="main10") core.playBgm("section1.mp3")
-		else if (floorId.startsWith("main")) core.playBgm("section2.mp3");
-		else if (floorId.startsWith("moyu")) core.playBgm("section3.mp3");
-		else if (floorId=="base1") core.playBgm("base.mp3");
-		else if (floorId=="base2") core.playBgm("base.mp3");
-		else if (floorId=="base3") core.playBgm("base.mp3");
-		else if (floorId=="base4") core.playBgm("base.mp3");
-		else if (floorId=="base5") core.playBgm("base.mp3");
-		else if (floorId=="base6") core.playBgm("section4.mp3");
-		else if (floorId=="base7") core.playBgm("section4.mp3");
-		else if (floorId=="base8") core.playBgm("section4.mp3");
-		else if (floorId=="base9") core.playBgm("section4.mp3");
-		else if (floorId=="base10") core.playBgm("section4.mp3");
-		else if (floorId=="base11") core.playBgm("section4.mp3");
-		else if (floorId=="base12") core.playBgm("section4.mp3");
-		else if (floorId=="base13") core.playBgm("section4.mp3");
-		else if (floorId=="base14") core.playBgm("section4.mp3");
-		else if (floorId=="base15") core.playBgm("section4.mp3");
-		else if (floorId.startsWith("base")) core.playBgm("section5.mp3");
+		else if (floorId=="floor_1") core.playBgm("section1.mp3")
+		else if (floorId=="floor_2") core.playBgm("section1.mp3")
+		else if (floorId=="floor_3") core.playBgm("section1.mp3")
+		else if (floorId=="floor_4") core.playBgm("section1.mp3")
+		else if (floorId=="floor_5") core.playBgm("section1.mp3")
+		else if (floorId=="floor_6") core.playBgm("section1.mp3")
+		else if (floorId=="floor_7") core.playBgm("section1.mp3")
+		else if (floorId=="floor_8") core.playBgm("section1.mp3")
+		else if (floorId=="floor_9") core.playBgm("section1.mp3")
+		else if (floorId=="floor_10") core.playBgm("section1.mp3")
+		else if (floorId.startsWith("floor_")) core.playBgm("section2.mp3");
+		else if (floorId.startsWith("phant_")) core.playBgm("section3.mp3");
+		else if (floorId=="base_1") core.playBgm("base.mp3");
+		else if (floorId=="base_2") core.playBgm("base.mp3");
+		else if (floorId=="base_3") core.playBgm("base.mp3");
+		else if (floorId=="base_4") core.playBgm("base.mp3");
+		else if (floorId=="base_5") core.playBgm("base.mp3");
+		else if (floorId=="base_6") core.playBgm("section4.mp3");
+		else if (floorId=="base_7") core.playBgm("section4.mp3");
+		else if (floorId=="base_8") core.playBgm("section4.mp3");
+		else if (floorId=="base_9") core.playBgm("section4.mp3");
+		else if (floorId=="base_10") core.playBgm("section4.mp3");
+		else if (floorId=="base_11") core.playBgm("section4.mp3");
+		else if (floorId=="base_12") core.playBgm("section4.mp3");
+		else if (floorId=="base_13") core.playBgm("section4.mp3");
+		else if (floorId=="base_14") core.playBgm("section4.mp3");
+		else if (floorId=="base_15") core.playBgm("section4.mp3");
+		else if (floorId.startsWith("base_") || floorId == "test") core.playBgm("section5.mp3");
+		floorId = _bgmFloorId;
 	}
 	// 更改画面色调
 	var color = core.getFlag('__color__', null);
@@ -317,7 +321,7 @@ var functions_d6ad677b_427a_4623_b50f_a445a3b0ef8a =
 
 	var enemy = core.material.enemys[enemyId];
 
-	if (enemyId != "__testMonster__") {
+	if (enemyId != "__testMonster__" && !core.plugin.__bang) { // 幻境里的“砰”已经播过音效
 		// 播放战斗音效和动画
 		var equipAnimate = 'handN', //yzm：hand改handN
 			equipId = (core.status.hero.equipment || [])[0];
@@ -330,7 +334,7 @@ var functions_d6ad677b_427a_4623_b50f_a445a3b0ef8a =
 	// 强制战斗的战斗动画
 	var damage = 0;
 	if (core.status.hero.battleAnimate) equipAnimate = core.status.hero.battleAnimate;
-	if (enemyId != "__testMonster__") {
+	if (enemyId != "__testMonster__" && !core.plugin.__bang) {
 		if (x != null && y != null)
 			core.drawAnimate(equipAnimate, x, y);
 		else
@@ -509,6 +513,9 @@ var functions_d6ad677b_427a_4623_b50f_a445a3b0ef8a =
 			// 获得一个道具后触发的事件
 			core.playSound('item.mp3');
 			if (itemId.startsWith("sword")) core.status.hero.battleAnimate = "sword"
+			// 记录当前武器/防具，供横屏右栏装备槽显示
+			if (/^sword\d+$/.test(itemId)) core.setFlag("curWeapon", itemId);
+			if (/^shield\d+$/.test(itemId) || itemId == "roundShield") core.setFlag("curArmor", itemId);
 
 			var todo = [];
 			var event = core.floors[core.status.floorId].afterGetItem[x + "," + y];
@@ -620,8 +627,7 @@ var functions_d6ad677b_427a_4623_b50f_a445a3b0ef8a =
 		}],
 		[26, "支援", "当周围一圈的怪物受到攻击时将上前支援，并组成小队战斗。"],
 		[27, "捕捉", "当走到怪物周围十字时会强制进行战斗。"],
-		[28, "章免疫", "免疫所有章的能力"],
-		[29, "锁定", "该怪物的攻击不可被闪避"]
+		[28, "章免疫", "免疫所有章的能力"]
 	];
 },
         "getEnemyInfo": function (enemy, hero, x, y, floorId) {
@@ -762,7 +768,6 @@ var functions_d6ad677b_427a_4623_b50f_a445a3b0ef8a =
 		hero_atk = core.getRealStatusOrDefault(hero, 'atk'),
 		hero_def = core.getRealStatusOrDefault(hero, 'def'),
 		hero_mdef = core.getRealStatusOrDefault(hero, 'mdef'),
-		hero_agi = core.getRealStatusOrDefault(hero, 'agi'),
 		hero_cri = core.getRealStatusOrDefault(hero, 'cri'),
 		origin_hero_hp = core.getStatusOrDefault(hero, 'hp'),
 		origin_hero_atk = core.getStatusOrDefault(hero, 'atk'),
@@ -773,7 +778,7 @@ var functions_d6ad677b_427a_4623_b50f_a445a3b0ef8a =
 	hero_atk = Math.max(0, hero_atk);
 	hero_def = Math.max(0, hero_def);
 	hero_mdef = Math.max(0, hero_mdef);
-	var mon_agi = enemy.agi, mon_cri = enemy.cri; //录入闪避和暴击
+	var mon_cri = enemy.cri; //录入暴击
 	var mon_turn = 1; //怪物攻击次数
 
 	// 怪物的各项数据
@@ -815,7 +820,7 @@ var functions_d6ad677b_427a_4623_b50f_a445a3b0ef8a =
 	// 2连击 & 3连击 & N连击
 	if (core.hasSpecial(mon_special, 4)) mon_turn = 2;
 	if (core.hasSpecial(mon_special, 5)) mon_turn = 3;
-	if (core.hasSpecial(mon_special, 6)) mon_turn = 4;
+	if (core.hasSpecial(mon_special, 6)) mon_turn = enemy.n || 4; // N连击：按怪物的 n 值（与实战一致）
 
 
 	// 勇士每回合对怪物造成的伤害
@@ -839,168 +844,58 @@ var functions_d6ad677b_427a_4623_b50f_a445a3b0ef8a =
 	var hero_turn = 1;
 	var c_hp = mon_hp;
 	var damage = 0;
-	var type = core.getFlag('proof');
 	var lv = core.getFlag('proof_lv', 0);
-
-
-	var per_damage_tyrant = per_damage_phy;
-	var per_damage_sage = Math.floor(per_damage*0.75);
-
-	if(type=='proof_brave' || type=='proof_brave_sage'){
-		hero_per_damage +=  Math.ceil(0.25*hero_per_damage);
-		if(lv == 3){
-			hero_per_damage +=  Math.ceil(0.08*hero_atk);
-		}
-		if(lv > 1){
-			hero_turn = 2;
-		}
+	// 持有的章同时生效（勇者 / 贤者 / 霸者）
+	var hasProof = function (k) { return core.plugin.hasProof ? core.plugin.hasProof(k) : String(core.getFlag('proof', '')).indexOf(k) >= 0; };
+	// 勇者：攻击伤害 +25%，三阶再加攻击的 12%，二阶起每回合攻击两次
+	if (hasProof('brave')) {
+		hero_per_damage += Math.ceil(0.25 * hero_per_damage);
+		if (lv == 3) hero_per_damage += Math.ceil(0.12 * hero_atk);
+		if (lv > 1) hero_turn = 2;
 	}
-
-	if(core.getFlag('hasDevine',0)==0){
-		if (mon_agi != null && mon_agi > 0) {
-			hero_per_damage = Math.ceil(hero_per_damage*mon_agi/100);
-		}
+	// 霸者（对魔攻无效）：受击时防御按“防御 + 攻击的25%”算；二阶起每次受击反击自身攻击力的25%，三阶再加自身攻击力的10%
+	var tLv = (hasProof('tyrant') && !core.hasSpecial(enemy, 2)) ? lv : 0;
+	// 贤者：生命护盾——每场战斗第一次（三阶为前两次）受到的伤害减少 50%（二阶起改为抵消这一击，并造成怪物当前生命 25% 的伤害），之后受到的伤害 ×0.75
+	var sLv = hasProof('sage') ? lv : 0;
+	var sageShields = sLv >= 3 ? 2 : 1; // 生命护盾次数：三阶 2 次
+	var hit = tLv ? core.battle_enemyInfo({ "def": Math.ceil(hero_def + hero_atk * 0.25) }, enemy).per_damage : per_damage;
+	var counter = tLv >= 3 ? Math.ceil(0.25 * hero_atk) + Math.ceil(0.1 * hero_atk) : (tLv == 2 ? Math.ceil(0.25 * hero_atk) : 0);
+	// 怪物打勇士一下；返回 true 表示怪物因此倒下
+	var enemyHit = function () {
+		// 与实战顺序一致：先结算霸者反击，再结算伤害
+		if (counter) c_hp = Math.max(0, c_hp - counter);
+		if (sLv) {
+			if (sageShields > 0) {
+				// 生命护盾。一阶：这一次受到的伤害减少 50%；二阶起：抵消这一击，并对怪物造成其当前生命 25% 的伤害（不吸取、不回复）
+				sageShields--;
+				if (sLv >= 2) c_hp -= Math.ceil(c_hp * 0.25);
+				else damage += Math.floor(hit * 0.5);
+			} else damage += Math.floor(hit * 0.75);
+		} else damage += hit;
+		return c_hp <= 0;
+	};
+	// 勇士打怪物一下
+	var heroHit = function () {
+		c_hp = Math.max(0, c_hp - hero_per_damage);
+		return c_hp <= 0;
+	};
+	// 与实战一致：怪物破不了防（这一击伤害为 0）且勇士打得动时，战斗直接获胜、不受伤
+	if (hit <= 0 && hero_per_damage > 0) {
+		turn = 1; damage = 0;
 	}
-
-
-	var firstDamage = 1;
-
-	var status = 'normal';
-	if(type=='proof_tyrant'){
-		if (!core.hasSpecial(enemy, 2)){
-			if(lv>2){
-				status = 'tyrant3';
-			}
-			else if(lv>1){
-				status = 'tyrant2';	
-			}
-			else{
-				status = 'tyrant1';
-			}
-		}
-	}
-	else if(type=='proof_sage' || type=='proof_brave_sage'){
-		if(lv ==3){
-			status = 'sage3';	
-		}
-		else if(lv==2){
-			status = 'sage2';	
-		}
-		else{
-			status = 'sage1';
-		}
-	}
-
-	while(true){
-		if (turn==0 && core.hasSpecial(mon_special, 1)){
-			if(status=='tyrant3'){
-				damage += core.battle_enemyInfo({
-					"def": Math.ceil(hero_def * 1.16)
-					}, enemy).per_damage;
-				init_damage += core.battle_enemyInfo({
-						"def": Math.ceil(hero_def * 1.16)
-						}, enemy).per_damage;
-				c_hp -=  Math.ceil(0.25*per_damage_tyrant) + Math.ceil(0.06*mon_atk);if(c_hp<=0) break;
-			}
-			else if(status=='tyrant2'){
-				damage += core.battle_enemyInfo({
-					"def": Math.ceil(hero_def * 1.16)
-					}, enemy).per_damage;
-				init_damage += core.battle_enemyInfo({
-						"def": Math.ceil(hero_def * 1.16)
-						}, enemy).per_damage;
-				c_hp -= Math.ceil(0.25*per_damage_tyrant);if(c_hp<=0) break;
-			} else if (status=='tyrant1') {
-				damage += core.battle_enemyInfo({
-					"def": Math.ceil(hero_def* 1.16)
-					}, enemy).per_damage;
-				init_damage += core.battle_enemyInfo({
-						"def": Math.ceil(hero_def* 1.16)
-				}, enemy).per_damage;
-			}  else if(status=='sage3'){
-				if(firstDamage==1){
-					if (c_hp <=  Math.ceil(mon_hp/3)){
-						damage -= Math.ceil(per_damage/5)+Math.ceil(c_hp/2);
-						init_damage -= Math.ceil(per_damage/5)+Math.ceil(c_hp/2);
-						firtDamage = 0;
-						c_hp = 0;
-						break;
-					}else{
-						damage -= Math.ceil(per_damage/5)+Math.ceil(mon_hp/6);
-						init_damage -= Math.ceil(per_damage/5)+Math.ceil(mon_hp/6);
-						c_hp -=  Math.ceil(mon_hp/3);if(c_hp<=0) break;
-						firstDamage = 0;
-					}
-				}else{
-					damage += per_damage_sage;
-					init_damage += per_damage_sage;
-				}
-			}else if(status=='sage2'){
-				if(firstDamage==1){
-					damage -= Math.ceil(per_damage/5);
-					init_damage -= Math.ceil(per_damage/5);
-					firstDamage = 0;
-				}else{
-					damage += per_damage_sage;
-					init_damage += per_damage_sage;
-				}
-			}else if(status=='sage1'){
-				damage += per_damage_sage;
-				init_damage += per_damage_sage;
-			}else {
-				damage += per_damage;
-				init_damage += per_damage;
-			}
+	else while (true) {
+		if (turn == 0 && core.hasSpecial(mon_special, 1)) {
+			var d0 = damage, dead = enemyHit();
+			init_damage += damage - d0;
+			if (dead) break;
 		}
 		turn += 1;
-		if(turn>=mon_hp+1) return null;
-		c_hp -= hero_per_damage*hero_turn; if(c_hp<=0) break;
-		for (var i =0;i<mon_turn;i++){
-			if(status=='tyrant3'){
-				damage += core.battle_enemyInfo({
-					"def": Math.ceil(hero_def * 1.16)
-					}, enemy).per_damage;
-				c_hp -= Math.ceil(0.25*per_damage_tyrant) + Math.ceil(0.06*mon_atk);if(c_hp<=0) break;
-			} 
-			else if(status=='tyrant2'){
-				damage += core.battle_enemyInfo({
-					"def": Math.ceil(hero_def * 1.16)
-					}, enemy).per_damage;
-				c_hp -= Math.ceil(0.25*per_damage_tyrant);if(c_hp<=0) break;
-			} else if (status=='tyrant1') {
-				damage += core.battle_enemyInfo({
-					"def": Math.ceil(hero_def * 1.16)
-					}, enemy).per_damage;
-			} else if(status=='sage3'){
-				if(firstDamage==1){
-					if(c_hp<= Math.ceil(mon_hp/3)){
-						damage -= Math.ceil(per_damage/5) + Math.ceil(c_hp/2);
-						c_hp = 0;
-						firstDamage = 0;
-						break;
-					}
-					else{
-						damage -= Math.ceil(per_damage/5) + Math.ceil(mon_hp/6);
-						c_hp -=  Math.ceil(mon_hp/3);if(c_hp<=0) break;
-						firstDamage = 0;
-					}
-				}else{
-					damage += per_damage_sage;
-				}
-			}else if(status=='sage2'){
-				if(firstDamage==1){
-					damage -= Math.ceil(per_damage/5);
-					firstDamage = 0;
-				}else{
-					damage += per_damage_sage;
-				}
-			}else if(status=='sage1'){
-				damage += per_damage_sage;
-			}else {
-				damage += per_damage;
-			}
-		}
-		if(c_hp<=0) break;
+		if (turn >= mon_hp + 1) return null;
+		var heroDead = false;
+		for (var h = 0; h < hero_turn; h++) { if (heroHit()) { heroDead = true; break; } }
+		if (heroDead) break;
+		for (var i = 0; i < mon_turn; i++) { if (enemyHit()) break; }
+		if (c_hp <= 0) break;
 	}
 
 	return {
@@ -1187,7 +1082,6 @@ var functions_d6ad677b_427a_4623_b50f_a445a3b0ef8a =
 			core.setStatus('atk', 9999);
 			core.setStatus('def', 9999);
 			core.setStatus('mdef', 999);
-			core.status.hero.agi = 999;
 			core.status.hero.cri = 999;
 			core.setItem('yellowKey', 99);
 			core.setItem('blueKey', 99);
@@ -1250,29 +1144,13 @@ var functions_d6ad677b_427a_4623_b50f_a445a3b0ef8a =
 
 	if (!_isVertical()) {
 		// book
-		if (px >= 10 && px <= 63 && py >= 223 && py <= 330) {
+		if (px >= 10 && px <= 63 && py >= 189 && py <= 296) {
 			core.openBook(true);
 		}
 		// fly
-		if (px >= 64 && px <= 117 && py >= 223 && py <= 330) {
+		if (px >= 64 && px <= 117 && py >= 189 && py <= 296) {
 			if (core.hasItem('fly') && core.canUseItem('fly')) core.useFly(true);
 			else core.playSound('warning.mp3');
-		}
-		// save
-		if (px >= 10 && px <= 63 && py >= 347 && py <= 376) {
-			core.save(true);
-		}
-		// load
-		if (px >= 64 && px <= 117 && py >= 347 && py <= 376) {
-			core.load(true);
-		}
-		// 物品栏
-		if (px >= 10 && px <= 63 && py >= 377 && py <= 405) {
-			core.openToolbox(true);
-		}
-		// 设置
-		if (px >= 64 && px <= 117 && py >= 377 && py <= 405) {
-			core.openSettings(true);
 		}
 		// 头像
 		if (px >= 10 && px <= 42 && py >= 10 && py <= 52) {
@@ -1283,15 +1161,11 @@ var functions_d6ad677b_427a_4623_b50f_a445a3b0ef8a =
 			core.setFlag('ah', 2);
 		}
 		// 属性
-		if (px >= 10 && px <= 117 && py >= 63 && py <= 188) {
+		if (px >= 10 && px <= 117 && py >= 63 && py <= 154) {
 			core.setFlag('ah', 3);
 		}
-		if (px >= 10 && px <= 84 && py >= 63 && py <= 206) {
+		if (px >= 10 && px <= 84 && py >= 63 && py <= 176) {
 			core.setFlag('ah', 3);
-		}
-		// 经典极速
-		if (px >= 85 && px <= 121 && py >= 189 && py <= 210) {
-			core.setFlag('ah', 4);
 		}
 	} else {
 		// 头像
@@ -1305,10 +1179,6 @@ var functions_d6ad677b_427a_4623_b50f_a445a3b0ef8a =
 		// 属性
 		if (px >= 118 && px <= 405 && py >= 10 && py <= 98) {
 			core.setFlag('ah', 3);
-		}
-		// 经典极速
-		if (px >= 6 && px <= 117 && py >= 66 && py <= 102) {
-			core.setFlag('ah', 4);
 		}
 	}
 	if (core.getFlag('ah', 0) > 0) core.insertAction('加点事件');
@@ -1398,6 +1268,7 @@ var functions_d6ad677b_427a_4623_b50f_a445a3b0ef8a =
 			// 重置游戏和路线
 			core.resetGame(data.hero, data.hard, data.floorId, core.maps.loadMap(data.maps), data.values);
 			core.status.route = core.decodeRoute(data.route);
+			if (!(core.status.route instanceof Array)) core.status.route = []; // 抢救过的存档录像为空
 			// 加载商店信息
 			for (var shopId in core.status.shops) {
 				if (data.shops[shopId]) {
@@ -1462,9 +1333,7 @@ var functions_d6ad677b_427a_4623_b50f_a445a3b0ef8a =
 		// 向下取整
 		core.status.hero[item] = Math.floor(core.status.hero[item]);
 		// 大数据格式化
-		if (item == "mdef") {
-			core.setStatusBarInnerHTML(item, core.status.hero.agi || 0);
-		} else core.setStatusBarInnerHTML(item, core.getRealStatus(item));
+		core.setStatusBarInnerHTML(item, core.getRealStatus(item));
 	});
 
 	// 设置魔力值
@@ -1558,7 +1427,7 @@ var functions_d6ad677b_427a_4623_b50f_a445a3b0ef8a =
 
 				// 领域
 				// 如果要防止领域伤害，可以直接简单的将 flag:no_zone 设为true
-				if (enemy && core.hasSpecial(enemy.special, 15) && !core.hasFlag('no_zone')) {
+				if (enemy && core.hasSpecial(enemy.special, 15) && !core.hasFlag('no_zone') && !core.hasFlag('steel_' + floorId)) { // 该层铁怪被打倒后领域失效（铁怪格子的战后事件会设置 flag:steel_楼层名）
 					// 领域范围，默认为1
 					var range = enemy.range || 1;
 					// 是否是九宫格领域
@@ -1702,7 +1571,8 @@ var functions_d6ad677b_427a_4623_b50f_a445a3b0ef8a =
 	core.setHeroLoc('x', x, true);
 	core.setHeroLoc('y', y, true);
 	core.status.hero.steps++;
-	core.playSound("step.mp3");
+	// 背景层是水（A375）时播放划水声，否则是脚步声
+	core.playSound(core.getBgNumber(x, y) == 375 ? "swim.mp3" : "step.mp3");
 	// 更新跟随者状态，并绘制
 	core.updateFollowers();
 	core.drawHero();
@@ -1798,16 +1668,13 @@ var functions_d6ad677b_427a_4623_b50f_a445a3b0ef8a =
 		if (core.domStyle.isVertical) {
 			core.drawImage(ctx, 'menu_mobile_cover.png', 0, 0);
 			// 经典 极速
-			if (core.getFlag('useBattleAnimate')) core.drawImage(ctx, 'menu_mobile_modeClassic.png', 0, 0);
-			else core.drawImage(ctx, 'menu_mobile_modeSpeedy.png', 0, 0);
 
 			// 基本属性
 			core.fillBoldText(ctx, core.status.hero.lv, 72, 86, cStyle, cFont);
 			core.fillBoldText(ctx, heroATK, 172, 61, weakStyle, cFontMiddle);
 			core.fillBoldText(ctx, heroDEF, 172, 88, weakStyle, cFontMiddle);
 			core.fillBoldText(ctx, (core.status.hero.cri == undefined ? 5 : core.status.hero.cri), 172 + 106, 34, cStyle, cFontMiddle);
-			core.fillBoldText(ctx, (core.status.hero.agi == undefined ? 2 : core.status.hero.agi), 172 + 106, 61, cStyle, cFontMiddle);
-			core.fillBoldText(ctx, core.status.hero.experience, 172 + 106, 88, cStyle, cFontMiddle);
+			core.fillBoldText(ctx, core.status.hero.experience, 172 + 106, 61, cStyle, cFontMiddle);
 
 			// 血
 			if (core.getStatus('hp') >= 10000000) {
@@ -1829,33 +1696,34 @@ var functions_d6ad677b_427a_4623_b50f_a445a3b0ef8a =
 			else core.fillBoldText(ctx, core.status.hero.money, 348, 87, '#ffffff', '19px uiFont');
 
 		} else {
-			core.drawImage(ctx, 'menu_pc_cover.png', 0, 0);
+			core.drawImage(ctx, 'menu_pc_cover2.png', 0, 0);
 
-			// 经典模式和极速模式
-			if (core.getFlag('useBattleAnimate')) core.drawImage(ctx, 'menu_pc_modeClassic.png', 0, 0);
-			else core.drawImage(ctx, 'menu_pc_modeSpeedy.png', 0, 0);
+			// 经典模式和极速模式（原图标记在 y=194，随上框缩短上移 34）
 
-			// 基本属性，hp单独拎出来绘制
-			core.fillBoldText(ctx, core.status.hero.lv, dStatusX, dStatusY, cStyle, cFontSmall);
-			core.fillBoldText(ctx, heroATK, dStatusX, dStatusY + 2 * dStatusYSpacing, weakStyle, cFontSmall);
-			core.fillBoldText(ctx, heroDEF, dStatusX, dStatusY + 3 * dStatusYSpacing, weakStyle, cFontSmall);
-			core.fillBoldText(ctx, (core.status.hero.cri == undefined ? 5 : core.status.hero.cri), dStatusX, dStatusY + 4 * dStatusYSpacing, cStyle, cFontSmall);
-			core.fillBoldText(ctx, (core.status.hero.agi == undefined ? 2 : core.status.hero.agi), dStatusX, dStatusY + 5 * dStatusYSpacing, cStyle, cFontSmall);
-			core.fillBoldText(ctx, core.status.hero.experience, dStatusX, dStatusY + 6 * dStatusYSpacing, cStyle, cFontSmall);
-			// 因为玩贤者随便刮痧个高级卫兵hp就成千上万了 所以hp单独拎出来绘制
-			if (core.getStatus('hp') >= 10000000) { // 真的有人会吸到一千万血吗……
-				core.fillBoldText(ctx, (Math.round(core.status.hero.hp / 1000000) + "M"), dStatusX, dStatusY + 1 * dStatusYSpacing, poisonStyle, '16px uiFont');
-			} else if (core.getStatus('hp') >= 100000) { // 就怕你贤者刮痧高级卫兵血量突破六位数 不知道是不是因为样板太老了所以没法用formatBigNumber
-				core.fillBoldText(ctx, (Math.round(core.status.hero.hp / 1000) + "K"), dStatusX, dStatusY + 1 * dStatusYSpacing, poisonStyle, '16px uiFont');
-			} else if (core.getStatus('hp') > 300) {
-				core.fillBoldText(ctx, core.status.hero.hp, dStatusX, dStatusY + 1 * dStatusYSpacing, poisonStyle, cFontSmall);
-			} else { core.fillBoldText(ctx, core.status.hero.hp, dStatusX, dStatusY + 1 * dStatusYSpacing, '#FFFF00', cFontSmall); }
+			// 体力 攻击 防御 经验（等级、暴击不显示）
+			var hpText = core.status.hero.hp, hpFont = cFontSmall;
+			if (hpText >= 10000000) { hpText = Math.round(hpText / 1000000) + "M"; hpFont = '16px uiFont'; }
+			else if (hpText >= 100000) { hpText = Math.round(hpText / 1000) + "K"; hpFont = '16px uiFont'; }
+			core.fillBoldText(ctx, hpText, dStatusX, 79, core.status.hero.hp > 300 ? poisonStyle : '#FFFF00', hpFont);
+			core.fillBoldText(ctx, heroATK, dStatusX, 103, weakStyle, cFontSmall);
+			core.fillBoldText(ctx, heroDEF, dStatusX, 127, weakStyle, cFontSmall);
+			core.fillBoldText(ctx, core.status.hero.experience, dStatusX, 151, cStyle, cFontSmall);
 
 			// 钥匙和金币
-			core.fillBoldText(ctx, core.itemCount('yellowKey'), 64, 245, cStyle, cFont);
-			core.fillBoldText(ctx, core.itemCount('blueKey'), 64, 245 + 26, cStyle, cFont);
-			core.fillBoldText(ctx, core.itemCount('redKey'), 64, 245 + 2 * 26, cStyle, cFont);
-			core.fillBoldText(ctx, core.status.hero.money, 64, 244 + 3 * 26, cStyle, cFont);
+			core.fillBoldText(ctx, core.itemCount('yellowKey'), 64, 211, cStyle, cFont);
+			core.fillBoldText(ctx, core.itemCount('blueKey'), 64, 211 + 26, cStyle, cFont);
+			core.fillBoldText(ctx, core.itemCount('redKey'), 64, 211 + 2 * 26, cStyle, cFont);
+			core.fillBoldText(ctx, core.status.hero.money, 64, 210 + 3 * 26, cStyle, cFont);
+
+			// 武器 / 防具（仿 50 层魔塔：上行标题，下行名字凹槽，右侧大图标）
+			[['武 器', '#C050C8', core.getFlag('curWeapon', null)], ['防 具', '#40C8C8', core.getFlag('curArmor', null)]].forEach(function (slot, k) {
+				var y0 = 315 + k * 46, item = slot[2] && core.material.items[slot[2]];
+				core.fillBoldText(ctx, slot[0], 22, y0 + 17, slot[1], 'bold 17px uiFont');
+				if (item) {
+					core.fillBoldText(ctx, item.name, 19, y0 + 37, '#DDDDDD', 'bold 15px uiFont');
+					core.drawIcon(ctx, slot[2], 84, y0 + 7, 32, 32);
+				} else core.fillBoldText(ctx, '无', 19, y0 + 37, '#999999', 'bold 15px uiFont');
+			});
 
 		} // 到这里横竖屏的分歧结束
 
@@ -1917,7 +1785,7 @@ var functions_d6ad677b_427a_4623_b50f_a445a3b0ef8a =
 	return [
 		'yellowDoor', 'blueDoor', 'redDoor', 'greenDoor',
 		'yellowKey', 'blueKey', 'redKey', 'greenKey',
-		'redJewel', 'blueJewel', 'greenJewel', 'agi_fly', 'Lvupfly',
+		'redJewel', 'blueJewel', 'greenJewel', 'Lvupfly',
 		'redPotion', 'bluePotion', 'superPotion', 'poisonWine', 'weakWine',
 		'sword1', 'sword2', 'sword3', 'sword4', 'sword5',
 		'shield1', 'shield2', 'shield3', 'shield4', 'shield5',

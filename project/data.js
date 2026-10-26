@@ -2,106 +2,153 @@ var data_a1e2fb4a_e986_4524_b0da_9b7ba7c0874d =
 {
 	"main": {
 		"floorIds": [
-			"base18",
-			"base22",
-			"base24",
-			"base25",
+			"test",
 			"underlake",
-			"base17_8",
-			"base17_7",
-			"base17_6",
-			"base17_5",
-			"base17_4",
-			"base17_3",
-			"base17_2",
-			"base17_1",
-			"base17_0",
-			"base16_8",
-			"base16_7",
-			"base16_6",
-			"base16_5",
-			"base16_4",
-			"base16_3",
-			"base16_2",
-			"base16_1",
-			"base16_0",
-			"base15",
-			"base14",
-			"base13",
-			"base12",
-			"base11",
-			"base10",
-			"base9",
-			"base8",
-			"base7",
-			"base6",
-			"base5",
-			"base4",
-			"base3",
-			"base2",
-			"base1",
-			"main0",
-			"main1",
-			"main2",
-			"main3",
-			"main4",
-			"main5",
-			"main6",
-			"main7",
-			"main8",
-			"main9",
-			"main10",
-			"main11",
-			"main12",
-			"main13",
-			"main14",
-			"main15",
-			"main16",
-			"main17",
-			"main18",
-			"main19",
-			"main20",
+			"underlake_plus",
+			"base_17_ne",
+			"base_17_e",
+			"base_17_se",
+			"base_17_s",
+			"base_17_sw",
+			"base_17_w",
+			"base_17_nw",
+			"base_17_n",
+			"base_17_c",
+			"base_16_ne",
+			"base_16_e",
+			"base_16_se",
+			"base_16_s",
+			"base_16_sw",
+			"base_16_w",
+			"base_16_nw",
+			"base_16_n",
+			"base_16_c",
+			"base_16",
+			"base_15",
+			"base_14",
+			"base_13",
+			"base_12",
+			"base_11",
+			"base_10",
+			"base_9",
+			"base_8",
+			"base_7",
+			"base_6",
+			"base_5",
+			"base_4",
+			"base_3",
+			"base_2",
+			"base_1",
+			"floor_0",
+			"floor_1",
+			"floor_2",
+			"floor_3",
+			"floor_4",
+			"floor_5",
+			"floor_6",
+			"floor_7",
+			"floor_8",
+			"floor_9",
+			"floor_10",
+			"floor_11",
+			"floor_12",
+			"floor_13",
+			"floor_14",
+			"floor_15",
+			"floor_16",
+			"floor_17",
+			"floor_18",
+			"floor_19",
+			"floor_20",
 			"stars",
-			"MOTA1",
-			"MOTA2",
-			"MOTA3",
-			"MOTA4",
-			"MOTA5",
-			"MOTA6",
-			"MOTA7",
-			"MOTA8",
-			"magic1",
-			"moyu1",
-			"moyu2",
-			"moyu3",
-			"moyu4",
-			"moyu5",
-			"moyu6",
-			"moyu7",
-			"moyu8",
-			"moyu9",
-			"moyu10",
-			"mainplus0",
-			"mainplus1",
-			"mainplus2",
-			"mainplus3",
-			"mainplus4",
-			"mainplus5",
-			"mainplus6",
-			"mainplus7",
-			"mainplus8",
-			"mainplus9",
-			"mainplus10",
-			"mainplus11",
-			"mainplus12",
-			"mainplus13",
-			"mainplus14",
-			"mainplus15",
-			"mainplus16",
-			"mainplus17",
-			"mainplus18",
-			"mainplus19",
-			"mainplus20"
+			"stars_plus",
+			"mota_1",
+			"mota_2",
+			"mota_3",
+			"mota_4",
+			"mota_5",
+			"mota_plus_5",
+			"magic_0",
+			"magic_1",
+			"magic_2",
+			"magic_3",
+			"phant_1",
+			"phant_2",
+			"phant_3",
+			"phant_4",
+			"phant_5",
+			"phant_6",
+			"phant_7",
+			"phant_8",
+			"phant_9",
+			"phant_10",
+			"phant_plus_1",
+			"phant_plus_2",
+			"phant_plus_3",
+			"phant_plus_4",
+			"phant_plus_5",
+			"phant_plus_6",
+			"phant_plus_7",
+			"phant_plus_8",
+			"phant_plus_9",
+			"phant_plus_10",
+			"base_plus_17_ne",
+			"base_plus_17_e",
+			"base_plus_17_se",
+			"base_plus_17_s",
+			"base_plus_17_sw",
+			"base_plus_17_w",
+			"base_plus_17_nw",
+			"base_plus_17_n",
+			"base_plus_17_c",
+			"base_plus_16_ne",
+			"base_plus_16_e",
+			"base_plus_16_se",
+			"base_plus_16_s",
+			"base_plus_16_sw",
+			"base_plus_16_w",
+			"base_plus_16_nw",
+			"base_plus_16_n",
+			"base_plus_16_c",
+			"base_plus_15",
+			"base_plus_14",
+			"base_plus_13",
+			"base_plus_12",
+			"base_plus_11",
+			"base_plus_10",
+			"base_plus_9",
+			"base_plus_8",
+			"base_plus_7",
+			"base_plus_6",
+			"base_plus_5",
+			"base_plus_4",
+			"base_plus_3",
+			"base_plus_2",
+			"base_plus_1",
+			"floor_plus_0",
+			"floor_plus_1",
+			"floor_plus_2",
+			"floor_plus_3",
+			"floor_plus_4",
+			"floor_plus_5",
+			"floor_plus_6",
+			"floor_plus_7",
+			"floor_plus_8",
+			"floor_plus_9",
+			"floor_plus_10",
+			"floor_plus_11",
+			"floor_plus_12",
+			"floor_plus_13",
+			"floor_plus_14",
+			"floor_plus_15",
+			"floor_plus_16",
+			"floor_plus_17",
+			"floor_plus_18",
+			"floor_plus_19",
+			"floor_plus_20",
+			"honor",
+			"bestiary_1",
+			"bestiary_2"
 		],
 		"images": [
 			"bg.jpg",
@@ -135,6 +182,7 @@ var data_a1e2fb4a_e986_4524_b0da_9b7ba7c0874d =
 			"flap.png",
 			"menu_pc.png",
 			"menu_pc_cover.png",
+			"menu_pc_cover2.png",
 			"menu_proof1.png",
 			"menu_proof2.png",
 			"menu_proof3.png",
@@ -225,6 +273,7 @@ var data_a1e2fb4a_e986_4524_b0da_9b7ba7c0874d =
 			"section5.mp3"
 		],
 		"sounds": [
+			"bang.mp3",
 			"floor.mp3",
 			"attack.mp3",
 			"door.mp3",
@@ -278,7 +327,8 @@ var data_a1e2fb4a_e986_4524_b0da_9b7ba7c0874d =
 			"sagefan.mp3",
 			"cursor.mp3",
 			"confirm.mp3",
-			"step.mp3"
+			"step.mp3",
+			"swim.mp3"
 		],
 		"nameMap": {
 			"背景图.jpg": "bg.jpg",
@@ -324,7 +374,7 @@ var data_a1e2fb4a_e986_4524_b0da_9b7ba7c0874d =
 		"title": "新新魔塔",
 		"name": "xinxin",
 		"version": "Ver 2.6.6",
-		"floorId": "main0",
+		"floorId": "floor_0",
 		"hero": {
 			"name": "勇士",
 			"lv": 1,
@@ -589,6 +639,28 @@ var data_a1e2fb4a_e986_4524_b0da_9b7ba7c0874d =
 																"function": "function(){\ncore.chooseReplayFile()\n}"
 															}
 														]
+													}
+												]
+											},
+											{
+												"case": "5",
+												"action": [
+													{
+														"type": "comment",
+														"text": "关于怪物：直接进入怪物图鉴展厅"
+													},
+													{
+														"type": "playSound",
+														"name": "confirm.mp3"
+													},
+													{
+														"type": "function",
+														"function": "function(){\nwindow.__bestiaryStart = true;\ncore.firstData.floorId = 'bestiary_1';\n}"
+													},
+													{
+														"type": "setValue",
+														"name": "flag:startCycle",
+														"value": "false"
 													}
 												]
 											},
@@ -1169,477 +1241,21 @@ var data_a1e2fb4a_e986_4524_b0da_9b7ba7c0874d =
 												"condition": "(flag:startChosen==5)",
 												"true": [
 													{
+														"type": "comment",
+														"text": "关于怪物：直接进入怪物图鉴展厅"
+													},
+													{
 														"type": "playSound",
 														"name": "confirm.mp3"
 													},
 													{
-														"type": "showImage",
-														"code": 6,
-														"image": "aboutMonsters.png",
-														"loc": [
-															0,
-															0
-														],
-														"opacity": 1,
-														"time": 0
+														"type": "function",
+														"function": "function(){\nwindow.__bestiaryStart = true;\ncore.firstData.floorId = 'bestiary_1';\n}"
 													},
 													{
 														"type": "setValue",
-														"name": "flag:startAboutMonstersCurrentPage",
-														"value": "1"
-													},
-													{
-														"type": "showImage",
-														"code": 7,
-														"image": "aboutMonstersHover1.png",
-														"loc": [
-															0,
-															0
-														],
-														"opacity": 1,
-														"time": 0
-													},
-													{
-														"type": "while",
-														"condition": "true",
-														"data": [
-															{
-																"type": "wait",
-																"data": [
-																	{
-																		"case": "keyboard",
-																		"keycode": 13,
-																		"action": [
-																			{
-																				"type": "comment",
-																				"text": "点击中间"
-																			},
-																			{
-																				"type": "playSound",
-																				"name": "confirm.mp3"
-																			},
-																			{
-																				"type": "hideImage",
-																				"code": 7,
-																				"time": 0
-																			},
-																			{
-																				"type": "hideImage",
-																				"code": 6,
-																				"time": 0
-																			},
-																			{
-																				"type": "break"
-																			}
-																		]
-																	},
-																	{
-																		"case": "mouse",
-																		"px": [
-																			105,
-																			311
-																		],
-																		"py": [
-																			0,
-																			416
-																		],
-																		"action": [
-																			{
-																				"type": "comment",
-																				"text": "点击中间"
-																			},
-																			{
-																				"type": "playSound",
-																				"name": "confirm.mp3"
-																			},
-																			{
-																				"type": "hideImage",
-																				"code": 7,
-																				"time": 0
-																			},
-																			{
-																				"type": "hideImage",
-																				"code": 6,
-																				"time": 0
-																			},
-																			{
-																				"type": "break"
-																			}
-																		]
-																	},
-																	{
-																		"case": "keyboard",
-																		"keycode": 37,
-																		"action": [
-																			{
-																				"type": "playSound",
-																				"name": "cursor.mp3"
-																			},
-																			{
-																				"type": "comment",
-																				"text": "点击左边"
-																			},
-																			{
-																				"type": "hideImage",
-																				"code": 7,
-																				"time": 0
-																			},
-																			{
-																				"type": "addValue",
-																				"name": "flag:startAboutMonstersCurrentPage",
-																				"value": "-1"
-																			},
-																			{
-																				"type": "if",
-																				"condition": "(flag:startAboutMonstersCurrentPage<1)",
-																				"true": [
-																					{
-																						"type": "setValue",
-																						"name": "flag:startAboutMonstersCurrentPage",
-																						"value": "3"
-																					}
-																				]
-																			},
-																			{
-																				"type": "switch",
-																				"condition": "flag:startAboutMonstersCurrentPage",
-																				"caseList": [
-																					{
-																						"case": "2",
-																						"action": [
-																							{
-																								"type": "showImage",
-																								"code": 7,
-																								"image": "aboutMonstersHover2.png",
-																								"loc": [
-																									0,
-																									0
-																								],
-																								"opacity": 1,
-																								"time": 0
-																							}
-																						]
-																					},
-																					{
-																						"case": "3",
-																						"action": [
-																							{
-																								"type": "showImage",
-																								"code": 7,
-																								"image": "aboutMonstersHover3.png",
-																								"loc": [
-																									0,
-																									0
-																								],
-																								"opacity": 1,
-																								"time": 0
-																							}
-																						]
-																					},
-																					{
-																						"case": "default",
-																						"action": [
-																							{
-																								"type": "showImage",
-																								"code": 7,
-																								"image": "aboutMonstersHover1.png",
-																								"loc": [
-																									0,
-																									0
-																								],
-																								"opacity": 1,
-																								"time": 0
-																							}
-																						]
-																					}
-																				]
-																			}
-																		]
-																	},
-																	{
-																		"case": "mouse",
-																		"px": [
-																			0,
-																			104
-																		],
-																		"py": [
-																			0,
-																			416
-																		],
-																		"action": [
-																			{
-																				"type": "playSound",
-																				"name": "cursor.mp3"
-																			},
-																			{
-																				"type": "comment",
-																				"text": "点击左边"
-																			},
-																			{
-																				"type": "hideImage",
-																				"code": 7,
-																				"time": 0
-																			},
-																			{
-																				"type": "addValue",
-																				"name": "flag:startAboutMonstersCurrentPage",
-																				"value": "-1"
-																			},
-																			{
-																				"type": "if",
-																				"condition": "(flag:startAboutMonstersCurrentPage<1)",
-																				"true": [
-																					{
-																						"type": "setValue",
-																						"name": "flag:startAboutMonstersCurrentPage",
-																						"value": "3"
-																					}
-																				]
-																			},
-																			{
-																				"type": "switch",
-																				"condition": "flag:startAboutMonstersCurrentPage",
-																				"caseList": [
-																					{
-																						"case": "2",
-																						"action": [
-																							{
-																								"type": "showImage",
-																								"code": 7,
-																								"image": "aboutMonstersHover2.png",
-																								"loc": [
-																									0,
-																									0
-																								],
-																								"opacity": 1,
-																								"time": 0
-																							}
-																						]
-																					},
-																					{
-																						"case": "3",
-																						"action": [
-																							{
-																								"type": "showImage",
-																								"code": 7,
-																								"image": "aboutMonstersHover3.png",
-																								"loc": [
-																									0,
-																									0
-																								],
-																								"opacity": 1,
-																								"time": 0
-																							}
-																						]
-																					},
-																					{
-																						"case": "default",
-																						"action": [
-																							{
-																								"type": "showImage",
-																								"code": 7,
-																								"image": "aboutMonstersHover1.png",
-																								"loc": [
-																									0,
-																									0
-																								],
-																								"opacity": 1,
-																								"time": 0
-																							}
-																						]
-																					}
-																				]
-																			}
-																		]
-																	},
-																	{
-																		"case": "keyboard",
-																		"keycode": 39,
-																		"action": [
-																			{
-																				"type": "playSound",
-																				"name": "cursor.mp3"
-																			},
-																			{
-																				"type": "comment",
-																				"text": "点击右边"
-																			},
-																			{
-																				"type": "hideImage",
-																				"code": 7,
-																				"time": 0
-																			},
-																			{
-																				"type": "addValue",
-																				"name": "flag:startAboutMonstersCurrentPage",
-																				"value": "1"
-																			},
-																			{
-																				"type": "if",
-																				"condition": "(flag:startAboutMonstersCurrentPage>3)",
-																				"true": [
-																					{
-																						"type": "setValue",
-																						"name": "flag:startAboutMonstersCurrentPage",
-																						"value": "1"
-																					}
-																				]
-																			},
-																			{
-																				"type": "switch",
-																				"condition": "flag:startAboutMonstersCurrentPage",
-																				"caseList": [
-																					{
-																						"case": "2",
-																						"action": [
-																							{
-																								"type": "showImage",
-																								"code": 7,
-																								"image": "aboutMonstersHover2.png",
-																								"loc": [
-																									0,
-																									0
-																								],
-																								"opacity": 1,
-																								"time": 0
-																							}
-																						]
-																					},
-																					{
-																						"case": "3",
-																						"action": [
-																							{
-																								"type": "showImage",
-																								"code": 7,
-																								"image": "aboutMonstersHover3.png",
-																								"loc": [
-																									0,
-																									0
-																								],
-																								"opacity": 1,
-																								"time": 0
-																							}
-																						]
-																					},
-																					{
-																						"case": "default",
-																						"action": [
-																							{
-																								"type": "showImage",
-																								"code": 7,
-																								"image": "aboutMonstersHover1.png",
-																								"loc": [
-																									0,
-																									0
-																								],
-																								"opacity": 1,
-																								"time": 0
-																							}
-																						]
-																					}
-																				]
-																			}
-																		]
-																	},
-																	{
-																		"case": "mouse",
-																		"px": [
-																			312,
-																			416
-																		],
-																		"py": [
-																			0,
-																			416
-																		],
-																		"action": [
-																			{
-																				"type": "playSound",
-																				"name": "cursor.mp3"
-																			},
-																			{
-																				"type": "comment",
-																				"text": "点击右边"
-																			},
-																			{
-																				"type": "hideImage",
-																				"code": 7,
-																				"time": 0
-																			},
-																			{
-																				"type": "addValue",
-																				"name": "flag:startAboutMonstersCurrentPage",
-																				"value": "1"
-																			},
-																			{
-																				"type": "if",
-																				"condition": "(flag:startAboutMonstersCurrentPage>3)",
-																				"true": [
-																					{
-																						"type": "setValue",
-																						"name": "flag:startAboutMonstersCurrentPage",
-																						"value": "1"
-																					}
-																				]
-																			},
-																			{
-																				"type": "switch",
-																				"condition": "flag:startAboutMonstersCurrentPage",
-																				"caseList": [
-																					{
-																						"case": "2",
-																						"action": [
-																							{
-																								"type": "showImage",
-																								"code": 7,
-																								"image": "aboutMonstersHover2.png",
-																								"loc": [
-																									0,
-																									0
-																								],
-																								"opacity": 1,
-																								"time": 0
-																							}
-																						]
-																					},
-																					{
-																						"case": "3",
-																						"action": [
-																							{
-																								"type": "showImage",
-																								"code": 7,
-																								"image": "aboutMonstersHover3.png",
-																								"loc": [
-																									0,
-																									0
-																								],
-																								"opacity": 1,
-																								"time": 0
-																							}
-																						]
-																					},
-																					{
-																						"case": "default",
-																						"action": [
-																							{
-																								"type": "showImage",
-																								"code": 7,
-																								"image": "aboutMonstersHover1.png",
-																								"loc": [
-																									0,
-																									0
-																								],
-																								"opacity": 1,
-																								"time": 0
-																							}
-																						]
-																					}
-																				]
-																			}
-																		]
-																	}
-																]
-															}
-														]
+														"name": "flag:startCycle",
+														"value": "false"
 													}
 												],
 												"false": [
@@ -1803,7 +1419,7 @@ var data_a1e2fb4a_e986_4524_b0da_9b7ba7c0874d =
 			},
 			{
 				"type": "function",
-				"function": "function(){\ncore.status.hero.agi = 0;\ncore.status.hero.cri = 0;\n// 为了省事直接照搬\nvar oldValues = {\n\tlavaDamage: 50,\n\tpoisonDamage: 10,\n\tweakValue: 50,\n\tredJewel: 2,\n\tblueJewel: 2,\n\tgreenJewel: 1,\n\tredPotion: 150,\n\tbluePotion: 400,\n\tyellowPotion: 114514,\n\tgreenPotion: 114514,\n\tsword0: 0,\n\tshield0: 0,\n\tsword1: 8,\n\tshield1: 13,\n\tsword2: 16,\n\tshield2: 22,\n\tsword3: 30,\n\tshield3: 7,\n\tsword4: 40,\n\tshield4: 35,\n\tsword5: 50,\n\tshield5: 50,\n\tmoneyPocket: 200,\n\tbreakArmor: 0.9,\n\tcounterAttack: 0.1,\n\tpurify: 3,\n\thatred: 2,\n\tmaxValidHp: null,\n\tanimateSpeed: 200\n};\nfor (var k in oldValues) {\n\tif (!core.values[k]) core.values[k] = oldValues[k];\n}\nfor (var key in core.values) {\n\tif (oldValues[key]) core.values[key] = oldValues[key];\n}\n}"
+				"function": "function(){\ncore.status.hero.cri = 0;\n// 为了省事直接照搬\nvar oldValues = {\n\tlavaDamage: 50,\n\tpoisonDamage: 10,\n\tweakValue: 50,\n\tredJewel: 2,\n\tblueJewel: 2,\n\tgreenJewel: 1,\n\tredPotion: 150,\n\tbluePotion: 400,\n\tyellowPotion: 114514,\n\tgreenPotion: 114514,\n\tsword0: 0,\n\tshield0: 0,\n\tsword1: 8,\n\tshield1: 13,\n\tsword2: 16,\n\tshield2: 22,\n\tsword3: 30,\n\tshield3: 7,\n\tsword4: 40,\n\tshield4: 35,\n\tsword5: 50,\n\tshield5: 50,\n\tmoneyPocket: 200,\n\tbreakArmor: 0.9,\n\tcounterAttack: 0.1,\n\tpurify: 3,\n\thatred: 2,\n\tmaxValidHp: null,\n\tanimateSpeed: 200\n};\nfor (var k in oldValues) {\n\tif (!core.values[k]) core.values[k] = oldValues[k];\n}\nfor (var key in core.values) {\n\tif (oldValues[key]) core.values[key] = oldValues[key];\n}\n}"
 			},
 			{
 				"type": "setValue",
@@ -1819,6 +1435,11 @@ var data_a1e2fb4a_e986_4524_b0da_9b7ba7c0874d =
 				"type": "setValue",
 				"name": "flag:useBattleAnimate",
 				"value": "true"
+			},
+			{
+				"type": "setValue",
+				"name": "flag:battleSpeed",
+				"value": "9"
 			},
 			{
 				"type": "setGlobalValue",
@@ -1839,6 +1460,58 @@ var data_a1e2fb4a_e986_4524_b0da_9b7ba7c0874d =
 				"type": "setValue",
 				"name": "flag:gameStart",
 				"value": "true"
+			},
+			{
+				"type": "if",
+				"condition": "window.__bestiaryStart===true",
+				"true": [
+					{
+						"type": "function",
+						"function": "function(){\nwindow.__bestiaryStart = false;\ncore.firstData.floorId = 'bestiary_1';\ncore.setFlag('round2', 0);\n}"
+					}
+				],
+				"false": [
+					{
+						"type": "choices",
+						"text": "\t[选择模式]一周目：从主塔 0 层开始。\n二周目：直接从二周目的主塔 0 层开始。",
+						"choices": [
+							{
+								"text": "一周目",
+								"action": [
+									{
+										"type": "function",
+										"function": "function(){\ncore.firstData.floorId = 'floor_0';\ncore.setFlag('round2', 0);\n// 一周目开局：手持勇者之剑与勇者之盾（3 楼被魔王夺走）\ncore.status.hero.atk = 130;\ncore.status.hero.def = 130;\ncore.setFlag('curWeapon', 'sword5');\ncore.setFlag('curArmor', 'shield5');\ncore.setFlag('startGear', 1);\ncore.status.hero.battleAnimate = 'sword';\n}"
+									}
+								]
+							},
+							{
+								"text": "二周目",
+								"action": [
+									{
+										"type": "function",
+										"function": "function(){\ncore.firstData.floorId = 'floor_plus_0';\ncore.setFlag('round2', 1);\n}"
+									}
+								]
+							},
+							{
+								"text": "荣誉",
+								"color": [
+									255,
+									221,
+									0,
+									1
+								],
+								"condition": "core.getGlobal('achAny', 0)==1",
+								"action": [
+									{
+										"type": "function",
+										"function": "function(){\ncore.firstData.floorId = 'honor';\ncore.setFlag('round2', 0);\n}"
+									}
+								]
+							}
+						]
+					}
+				]
 			}
 		],
 		"shops": [

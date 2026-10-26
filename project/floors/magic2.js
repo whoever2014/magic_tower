@@ -32,7 +32,7 @@ main.floors.magic2=
                         1
                     ]
                 ],
-                "floorId": "magic1"
+                "floorId": "magic_1"
             },
             {
                 "type": "setBlock",
@@ -43,7 +43,7 @@ main.floors.magic2=
                         2
                     ]
                 ],
-                "floorId": "magic1"
+                "floorId": "magic_1"
             },
             {
                 "type": "setBlock",
@@ -54,7 +54,7 @@ main.floors.magic2=
                         2
                     ]
                 ],
-                "floorId": "magic1"
+                "floorId": "magic_1"
             },
             {
                 "type": "setBlock",
@@ -65,7 +65,7 @@ main.floors.magic2=
                         9
                     ]
                 ],
-                "floorId": "magic1"
+                "floorId": "magic_1"
             },
             {
                 "type": "setBlock",
@@ -76,7 +76,7 @@ main.floors.magic2=
                         10
                     ]
                 ],
-                "floorId": "magic1"
+                "floorId": "magic_1"
             },
             {
                 "type": "setBlock",
@@ -87,7 +87,7 @@ main.floors.magic2=
                         10
                     ]
                 ],
-                "floorId": "magic1"
+                "floorId": "magic_1"
             },
             {
                 "type": "setBlock",
@@ -98,7 +98,7 @@ main.floors.magic2=
                         6
                     ]
                 ],
-                "floorId": "magic1"
+                "floorId": "magic_1"
             },
             {
                 "type": "setBlock",
@@ -109,7 +109,7 @@ main.floors.magic2=
                         7
                     ]
                 ],
-                "floorId": "magic1"
+                "floorId": "magic_1"
             },
             {
                 "type": "setBlock",
@@ -120,7 +120,7 @@ main.floors.magic2=
                         10
                     ]
                 ],
-                "floorId": "magic1"
+                "floorId": "magic_1"
             },
             {
                 "type": "setBlock",
@@ -131,7 +131,7 @@ main.floors.magic2=
                         9
                     ]
                 ],
-                "floorId": "magic1"
+                "floorId": "magic_1"
             },
             {
                 "type": "setBlock",
@@ -142,7 +142,7 @@ main.floors.magic2=
                         5
                     ]
                 ],
-                "floorId": "magic1"
+                "floorId": "magic_1"
             },
             {
                 "type": "setBlock",
@@ -153,7 +153,7 @@ main.floors.magic2=
                         1
                     ]
                 ],
-                "floorId": "magic1"
+                "floorId": "magic_1"
             },
             {
                 "type": "setBlock",
@@ -164,7 +164,7 @@ main.floors.magic2=
                         7
                     ]
                 ],
-                "floorId": "magic1"
+                "floorId": "magic_1"
             },
             {
                 "type": "setBlock",
@@ -175,7 +175,7 @@ main.floors.magic2=
                         9
                     ]
                 ],
-                "floorId": "magic1"
+                "floorId": "magic_1"
             },
             {
                 "type": "setBlock",
@@ -186,7 +186,7 @@ main.floors.magic2=
                         9
                     ]
                 ],
-                "floorId": "magic1"
+                "floorId": "magic_1"
             },
             {
                 "type": "setBlock",
@@ -197,7 +197,7 @@ main.floors.magic2=
                         6
                     ]
                 ],
-                "floorId": "magic1"
+                "floorId": "magic_1"
             },
             {
                 "type": "setBlock",
@@ -208,7 +208,7 @@ main.floors.magic2=
                         5
                     ]
                 ],
-                "floorId": "magic1"
+                "floorId": "magic_1"
             },
             {
                 "type": "setBlock",
@@ -219,7 +219,7 @@ main.floors.magic2=
                         4
                     ]
                 ],
-                "floorId": "magic1"
+                "floorId": "magic_1"
             },
             {
                 "type": "setBlock",
@@ -230,7 +230,7 @@ main.floors.magic2=
                         2
                     ]
                 ],
-                "floorId": "magic1"
+                "floorId": "magic_1"
             },
             {
                 "type": "setBlock",
@@ -241,7 +241,7 @@ main.floors.magic2=
                         2
                     ]
                 ],
-                "floorId": "magic1"
+                "floorId": "magic_1"
             },
             {
                 "type": "setBlock",
@@ -252,7 +252,7 @@ main.floors.magic2=
                         7
                     ]
                 ],
-                "floorId": "magic1"
+                "floorId": "magic_1"
             },
             {
                 "type": "setBlock",
@@ -263,7 +263,7 @@ main.floors.magic2=
                         11
                     ]
                 ],
-                "floorId": "magic1"
+                "floorId": "magic_1"
             }
         ],
         "9,5": {
@@ -276,7 +276,7 @@ main.floors.magic2=
     },
     "changeFloor": {
         "4,4": {
-            "floorId": "magic1",
+            "floorId": "magic_1",
             "loc": [
                 4,
                 4
@@ -284,7 +284,7 @@ main.floors.magic2=
             "time": 500
         },
         "9,5": {
-            "floorId": "main20",
+            "floorId": "floor_20",
             "loc": [
                 6,
                 1
@@ -316,7 +316,7 @@ main.floors.magic2=
                                 5
                             ]
                         ],
-                        "floorId": "magic1",
+                        "floorId": "magic_1",
                         "time": 500
                     },
                     {
@@ -327,7 +327,7 @@ main.floors.magic2=
                                 8
                             ]
                         ],
-                        "floorId": "magic1",
+                        "floorId": "magic_1",
                         "time": 500
                     },
                     {
@@ -338,7 +338,7 @@ main.floors.magic2=
                                 4
                             ]
                         ],
-                        "floorId": "magic1",
+                        "floorId": "magic_1",
                         "time": 500
                     },
                     {
@@ -370,7 +370,7 @@ main.floors.magic2=
                                 5
                             ]
                         ],
-                        "floorId": "magic1"
+                        "floorId": "magic_1"
                     },
                     {
                         "type": "show",
@@ -380,7 +380,7 @@ main.floors.magic2=
                                 6
                             ]
                         ],
-                        "floorId": "main2",
+                        "floorId": "floor_2",
                         "time": 0
                     },
                     {

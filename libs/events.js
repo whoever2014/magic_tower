@@ -679,7 +679,7 @@ events.prototype._changeFloor_beforeChange = function (info, callback) {
     //yzm
     if (!core.getFlag('doNotPlaySoundWhileChangingFloor', false)){
         var fid = core.status.floorId;
-        if (fid == "MOTA1"||fid == "MOTA2"||fid == "MOTA3"||fid == "MOTA4"||fid == "MOTA5"||fid == "MOTA6"||fid == "MOTA7"||fid == "MOTA8"||fid == "MOTA9"||fid == "MOTA10")
+        if (/^mota_/.test(fid || '') || /^MOTA\d+$/.test(fid || '')) // 魔塔（mota_1–5、mota_plus_5）换层用传送音效
             core.playSound('teleport.mp3');
         else core.playSound('floor.mp3');
         

@@ -1,0 +1,49 @@
+{
+ "hp0": 1000,
+ "lazy": true,
+ "A": {
+  "hpAtKill": null,
+  "stats": {
+   "expanded": 72704,
+   "generated": 208235,
+   "keys": 36994,
+   "pruneBound": 0,
+   "pruneUseless": 242679,
+   "pruneBeam": 0,
+   "maxLayer": 0,
+   "exhaustive": false,
+   "timedOut": true,
+   "startTime": 1791758200609,
+   "pruneMemo": 135316,
+   "elapsedMs": 15055,
+   "memoKeys": 36994,
+   "nStructural": 180,
+   "lazyDefer": true,
+   "mode": "dfs"
+  }
+ },
+ "B": {
+  "hpAtKill": null,
+  "stats": {
+   "expanded": 38184,
+   "generated": 82937,
+   "keys": 66241,
+   "pruneBound": 0,
+   "pruneUseless": 117015,
+   "pruneBeam": 0,
+   "maxLayer": 24,
+   "exhaustive": false,
+   "timedOut": true,
+   "startTime": 1791758215674,
+   "elapsedMs": 15002,
+   "memoKeys": 66241,
+   "nStructural": 180,
+   "lazyDefer": true
+  }
+ },
+ "best": {
+  "hpAtKill": null,
+  "hpAfter": null,
+  "actions": null
+ }
+}
