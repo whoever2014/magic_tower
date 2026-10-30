@@ -645,7 +645,6 @@ var plugins_bb40132b_638b_4a9f_b028_d3fe47acc8d1 =
 				var _name = (core.material.enemys[enemy.id] || enemy).name;
 				var _loc = flags.__loc__ || [];
 				var _revived = core.plugin.isRevivedKill(enemy.id, _loc[0], _loc[1]);
-				var _lost = Math.max(0, core.status.battle_heroHp - core.status.hero.hp);
 				core.lockControl();
 				core.playSound("slide.mp3");   // 原胜利下拉框的音效
 				// 和原来的胜利框一样：等本场战斗事件退出后再结算战后事件，
@@ -653,8 +652,8 @@ var plugins_bb40132b_638b_4a9f_b028_d3fe47acc8d1 =
 				setTimeout(function () {
 					battleEnd();
 					core.battle_exit();
-					if (_revived) core.drawTip(_name + " 又被打败：体力 -" + _lost + "（不再掉落）");
-					else core.drawTip(_name + " 被打败：体力 -" + _lost + "，金币 +" + _money + "，经验 +" + (enemy.experience || 0));
+					if (_revived) core.drawTip(_name + " 又被打败了（复活的不再掉落）");
+					else core.drawTip(_name + " 被打败了，获得 " + _money + " 金币、" + (enemy.experience || 0) + " 经验");
 				}, 0);
 				return;
 			}
