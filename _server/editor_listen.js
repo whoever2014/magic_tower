@@ -140,6 +140,7 @@ editor_listen_wrapper = function (editor) {
 
         editor.uifunctions.selectFloor_func()
         editor.uifunctions.saveFloor_func()
+        editor.uifunctions.selectRound_func()
 
         editor.uifunctions.newMap_func()
 

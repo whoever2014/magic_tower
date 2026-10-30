@@ -579,50 +579,6 @@ main.floors.phant_10=
                 "time": 500
             },
             {
-                "type": "hide",
-                "loc": [
-                    [
-                        4,
-                        4
-                    ]
-                ],
-                "floorId": "floor_20",
-                "time": 500
-            },
-            {
-                "type": "hide",
-                "loc": [
-                    [
-                        8,
-                        4
-                    ]
-                ],
-                "floorId": "floor_20",
-                "time": 500
-            },
-            {
-                "type": "hide",
-                "loc": [
-                    [
-                        4,
-                        8
-                    ]
-                ],
-                "floorId": "floor_20",
-                "time": 500
-            },
-            {
-                "type": "hide",
-                "loc": [
-                    [
-                        8,
-                        8
-                    ]
-                ],
-                "floorId": "floor_20",
-                "time": 500
-            },
-            {
                 "type": "function",
                 "function": "function(){\ncore.setFlag('killedDarkMage',1);\ncore.plugin.updateEnemyData();\n}"
             }

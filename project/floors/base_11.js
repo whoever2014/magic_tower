@@ -67,7 +67,7 @@ main.floors.base_11=
                         ]
                     },
                     {
-                        "text": "防御+8",
+                        "text": "防御+16",
                         "action": [
                             {
                                 "type": "if",
@@ -76,7 +76,7 @@ main.floors.base_11=
                                     {
                                         "type": "setValue",
                                         "name": "status:def",
-                                        "value": "status:def+8"
+                                        "value": "status:def+16"
                                     },
                                     {
                                         "type": "setValue",
@@ -505,6 +505,10 @@ main.floors.base_11=
     "height": 13,
     "autoEvent": {},
     "underGround": true,
-    "bgmap": [],
-    "fgmap": []
+    "bgmap": [
+
+],
+    "fgmap": [
+
+]
 }

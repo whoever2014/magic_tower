@@ -715,6 +715,122 @@ editor_mappanel_wrapper = function (editor) {
         saveFloor.onclick = editor_mode.saveFloor;
     }
 
+
+    ////////////////////////// 周目 //////////////////////////
+    // 一套楼层 + 每个周目一份差异文件（project/rounds/roundN.js）。编辑器里选周目：
+    // 一周目改的是楼层本体；其他周目显示“本体 + 差异”，保存时只把和本体不一样的地方写回差异文件。
+    editor.round = {
+        now: 1,
+        CN: ['', '一', '二', '三', '四', '五', '六', '七', '八', '九'],
+        OBJ: ['events', 'afterBattle', 'afterGetItem', 'afterOpenDoor', 'autoEvent', 'changeFloor', 'cannotMove'],
+        GRID: ['map', 'bgmap', 'fgmap'],
+        fileName: function (n) { return 'project/rounds/round' + n + '.js'; },
+        list: function () {
+            var r = [1];
+            Object.keys(main.rounds || {}).map(Number).sort(function (a, b) { return a - b; }).forEach(function (n) { if (n > 1) r.push(n); });
+            return r;
+        },
+        // 把编辑区当前的地图写回楼层数据（和 editor.changeFloor 开头一样）
+        flushMap: function () {
+            ['map', 'bgmap', 'fgmap'].forEach(function (name) {
+                if (!editor[name]) return;
+                editor.currentFloorData[name] = editor[name].map(function (v) { return v.map(function (v) { return v.idnum || v || 0; }); });
+            });
+        },
+        set: function (n, silent) {
+            n = +n || 1;
+            if (n > 1 && !(main.rounds || {})[n]) n = 1;
+            var r = editor.round;
+            r.flushMap();
+            if (r.now == 1 && n > 1) core.plugin.roundResetBase();
+            core.plugin.applyRound(n, true);
+            r.now = n;
+            try { localStorage.setItem('editorRound', String(n)); } catch (e) { }
+            r.updateUI();
+            if (!silent) editor.changeFloor(editor.currentFloorId);
+        },
+        updateUI: function () {
+            var sel = document.getElementById('selectRound');
+            if (sel) sel.value = String(editor.round.now);
+        },
+        canon: function (v) {
+            return JSON.stringify(v, function (k, x) {
+                return x && typeof x === 'object' && !Array.isArray(x) ? Object.keys(x).sort().reduce(function (o, kk) { o[kk] = x[kk]; return o; }, {}) : x;
+            });
+        },
+        grid: function (g, w, h) {
+            if (g && g.length) return g;
+            var a = []; for (var y = 0; y < h; y++) { a.push([]); for (var x = 0; x < w; x++) a[y].push(0); } return a;
+        },
+        // 当前楼层（编辑结果）和一周目本体的差异，格式与 round2.js 一致
+        diff: function (A, B) {
+            var r = editor.round, ov = {}, w = A.width || 13, h = A.height || 13;
+            r.GRID.forEach(function (g) {
+                var a = r.grid(A[g], w, h), b = r.grid(B[g], w, h), c = {}, has = false;
+                for (var y = 0; y < h; y++) for (var x = 0; x < w; x++) {
+                    var av = (a[y] || [])[x] || 0, bv = (b[y] || [])[x] || 0;
+                    if (av !== bv) { c[x + ',' + y] = bv; has = true; }
+                }
+                if (has) ov[g] = c;
+            });
+            r.OBJ.forEach(function (s) {
+                var a = A[s] || {}, b = B[s] || {}, c = {}, has = false, k;
+                for (k in a) if (!(k in b)) { c[k] = null; has = true; }
+                for (k in b) if (!(k in a) || r.canon(a[k]) !== r.canon(b[k])) { c[k] = b[k]; has = true; }
+                if (has) ov[s] = c;
+            });
+            var props = {}, hasP = false, keys = {}, k2;
+            for (k2 in A) keys[k2] = 1;
+            for (k2 in B) keys[k2] = 1;
+            for (k2 in keys) {
+                if (r.GRID.indexOf(k2) >= 0 || r.OBJ.indexOf(k2) >= 0 || k2 == 'floorId') continue;
+                if (r.canon(A[k2]) !== r.canon(B[k2])) { props[k2] = (k2 in B) ? B[k2] : '__delete__'; hasP = true; }
+            }
+            if (hasP) ov.props = props;
+            return ov;
+        },
+        saveDiff: function (callback) {
+            var r = editor.round, n = r.now, id = editor.currentFloorId;
+            r.flushMap();
+            var norm = function (v) { return JSON.parse(JSON.stringify(v, editor.game.replacerForSaving)); };
+            var cur = norm(editor.currentFloorData), base = norm(core.plugin.roundBase(id));
+            var ov = r.diff(base, cur);
+            main.rounds[n] = main.rounds[n] || {};
+            if (Object.keys(ov).length) main.rounds[n][id] = ov; else delete main.rounds[n][id];
+            var text = '// ' + r.CN[n] + '周目和一周目的差异：只记' + r.CN[n] + '周目不一样的地方（格子、事件、楼层属性）。\n'
+                + (n == 2 ? '// 由脚本从原来的 *_plus_* 楼层生成；在编辑器里切到“二周目”保存时也会写回这里。\n'
+                    : '// 在编辑器里切到“' + r.CN[n] + '周目”保存时会写回这里。\n')
+                + 'main.rounds = main.rounds || {};\nmain.rounds[' + n + '] = ' + JSON.stringify(main.rounds[n], null, 1) + ';\n';
+            editor.file.alertWhenCompress();
+            editor.fs.writeFile(r.fileName(n), editor.util.encode64(text), 'base64', function (err) { callback(err); });
+        }
+    };
+    editor.uifunctions.selectRound_func = function () {
+        // 所有保存楼层的入口（地图、事件、楼层属性……）最终都走 saveFloorFile：
+        // 一周目照常写楼层文件并更新本体；其他周目只把差异写进 rounds/roundN.js
+        if (!editor.file._roundWrapped) {
+            var origSave = editor.file.saveFloorFile;
+            editor.file.saveFloorFile = function (callback) {
+                if (editor.round.now > 1) return editor.round.saveDiff(function (err) { if (callback) callback(err); });
+                return origSave.call(this, function (err) {
+                    if (!err && core.plugin.roundSetBase) core.plugin.roundSetBase(editor.currentFloorId, editor.currentFloorData);
+                    if (callback) callback(err);
+                });
+            };
+            editor.file._roundWrapped = true;
+        }
+        var sel = document.getElementById('selectRound');
+        if (!sel) return;
+        sel.innerHTML = editor.round.list().map(function (n) {
+            return '<option value="' + n + '">' + editor.round.CN[n] + '周目</option>';
+        }).join('');
+        sel.onchange = function () { editor.round.set(sel.value); };
+        var saved = 1;
+        try { saved = +(localStorage.getItem('editorRound') || 1); } catch (e) { }
+        if (saved > 1 && (main.rounds || {})[saved]) editor.round.set(saved);
+        else editor.round.updateUI();
+    };
+
     editor.uifunctions.lastUsed_click = function (e) {
         if (editor.isMobile) return;
 

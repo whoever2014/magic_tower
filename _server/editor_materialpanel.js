@@ -112,6 +112,9 @@ editor_materialpanel_wrapper = function (editor) {
                             y += editor.uivalues.foldPerCol * (pos.x - editor.widthsX[spriter][1]);
                         }
                         if (pos.images == 'terrains' && pos.x == 0) y -= 2;
+                        // 这一列只取了素材图的部分行：把显示的行号换算回素材图里的行号
+                        var rowMap = editor.widthsX[spriter][4];
+                        if (rowMap) y = rowMap[Math.max(0, Math.min(y, rowMap.length - 1))];
                         editor.info = { 'images': pos.images, 'y': y }
                     }
 

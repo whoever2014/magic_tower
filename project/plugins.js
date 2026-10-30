@@ -157,14 +157,16 @@ var plugins_bb40132b_638b_4a9f_b028_d3fe47acc8d1 =
 	// ====== 周目：一套楼层 + 每个周目一份差异文件 project/rounds/roundN.js ======
 	// 差异只记“和一周目不一样的地方”：格子（map/bgmap/fgmap）、事件类（events/afterBattle/... 按坐标，null 表示删掉）、楼层属性（props）。
 	main.rounds = main.rounds || {};
-	[2, 3, 4, 5].forEach(function (n) {
+	var loadRoundFile = function (path) {
 		try {
 			var x = new XMLHttpRequest();
-			x.open('GET', 'project/rounds/round' + n + '.js?v=' + Date.now(), false);
+			x.open('GET', path + '?v=' + Date.now(), false);
 			x.send(null);
 			if (x.status == 200 && x.responseText) eval(x.responseText);
 		} catch (e) { }
-	});
+	};
+	loadRoundFile('project/rounds/index.js'); // main.roundFiles：有哪些周目差异文件
+	(main.roundFiles || [2]).forEach(function (n) { loadRoundFile('project/rounds/round' + n + '.js'); });
 	var ROUND_OBJ = ['events', 'afterBattle', 'afterGetItem', 'afterOpenDoor', 'autoEvent', 'changeFloor', 'cannotMove'];
 	var ROUND_GRID = ['map', 'bgmap', 'fgmap'];
 	this.applyOverlay = function (base, ov) {
@@ -203,6 +205,13 @@ var plugins_bb40132b_638b_4a9f_b028_d3fe47acc8d1 =
 	};
 	// 一周目本体（编辑器保存二周目差异时要用）
 	this.roundBase = function (id) { return ROUND_BASE[id] || core.floors[id]; };
+	// 编辑器用：从一周目切到其他周目前，把当前（一周目）所有楼层记为本体
+	this.roundResetBase = function () {
+		if (core.plugin.roundNow != 1) return;
+		for (var id in core.floors) ROUND_BASE[id] = core.clone(core.floors[id]);
+	};
+	// 编辑器用：一周目下保存了某层后，更新它的本体
+	this.roundSetBase = function (id, data) { ROUND_BASE[id] = core.clone(data); };
 
 	// 在这里写的代码将会在【资源加载前】被执行，此时图片等资源尚未被加载。请勿在这里对包括bgm，图片等资源进行操作。
 
@@ -636,6 +645,7 @@ var plugins_bb40132b_638b_4a9f_b028_d3fe47acc8d1 =
 				var _name = (core.material.enemys[enemy.id] || enemy).name;
 				var _loc = flags.__loc__ || [];
 				var _revived = core.plugin.isRevivedKill(enemy.id, _loc[0], _loc[1]);
+				var _lost = Math.max(0, core.status.battle_heroHp - core.status.hero.hp);
 				core.lockControl();
 				core.playSound("slide.mp3");   // 原胜利下拉框的音效
 				// 和原来的胜利框一样：等本场战斗事件退出后再结算战后事件，
@@ -643,8 +653,8 @@ var plugins_bb40132b_638b_4a9f_b028_d3fe47acc8d1 =
 				setTimeout(function () {
 					battleEnd();
 					core.battle_exit();
-					if (_revived) core.drawTip(_name + " 又被打败了（复活的不再掉落）");
-					else core.drawTip(_name + " 被打败了，获得 " + _money + " 金币、" + (enemy.experience || 0) + " 经验");
+					if (_revived) core.drawTip(_name + " 又被打败：体力 -" + _lost + "（不再掉落）");
+					else core.drawTip(_name + " 被打败：体力 -" + _lost + "，金币 +" + _money + "，经验 +" + (enemy.experience || 0));
 				}, 0);
 				return;
 			}
@@ -984,6 +994,18 @@ var plugins_bb40132b_638b_4a9f_b028_d3fe47acc8d1 =
 		return list[name] || list.linear;
 	}
 
+	// 战斗动画加快一倍：播放频率已到屏幕刷新上限，所以每播一帧多跳一帧（跳到末尾时照常结束）
+	if (main.mode == 'play') {
+		var _animateFrame = core.control._animationFrame_animate;
+		core.registerAnimationFrame('animate', true, function (timestamp) {
+			var last = core.animateFrame.animateTime;
+			_animateFrame.call(core.control, timestamp);
+			if (core.animateFrame.animateTime == last || !core.status.hero || !core.status.hero.isBattling) return;
+			(core.status.animateObjs || []).forEach(function (obj) {
+				if (obj.index < obj.animate.frames.length) obj.index++;
+			});
+		});
+	}
 	this.battle_heroAttack = function () {
 		if (core.status.hero.battleAnimate == null) core.status.hero.battleAnimate = "hand";
 		// 回合开始 设置战斗动画
@@ -1561,39 +1583,47 @@ var plugins_bb40132b_638b_4a9f_b028_d3fe47acc8d1 =
 		}
 		return r;
 	};
-	// 二周目：在地下层打倒黑暗骑士（骑士领主）后，章升到二阶（章的阶数是共用的，身上两枚章一起升）
+	// 打倒塔主后章升阶（章的阶数是共用的，身上两枚章一起升）。二周目：骑士领主二阶、大法师三阶；
+	// 一周目：每打倒一位升一阶，不分先后。打倒时还没鉴定章的，之后找地下 5 层的仙子补升
+	var bossProofUp = function (doneFlag, round2Lv) {
+		var now = core.getFlag('proof_lv', 1), lv = round2Lv;
+		if (core.getFlag('round2', 0) != 1) {
+			if (core.hasFlag(doneFlag)) return;
+			core.setFlag(doneFlag, 1);
+			lv = now + 1;
+		}
+		if (lv <= now || lv > 3) return;
+		core.insertAction([
+			{ "type": "function", "function": "function(){\ncore.setFlag('proof_lv', " + lv + ");\n}" },
+			{ "type": "playSound", "name": "item.mp3" },
+			{ "type": "tip", "text": "章提升到" + ['', '一', '二', '三'][lv] + "阶" },
+			{ "type": "update" }
+		], null, null, null, true);
+	};
 	var _afterBattleR2Knight = core.events.afterBattle;
 	core.events.afterBattle = function (enemyId, x, y, callback) {
 		var rid = enemyId == '__testMonster__' ? ((core.material.enemys.__testMonster__ || {}).id || enemyId) : enemyId;
 		var r = _afterBattleR2Knight.apply(this, arguments);
-		if (core.getFlag('round2', 0) == 1 && rid == 'darkKnight' && /^base_/.test(core.status.floorId || '')
-			&& core.hasFlag('proof') && core.getFlag('proof_lv', 1) < 2) {
-			core.insertAction([
-				{ "type": "function", "function": "function(){\ncore.setFlag('proof_lv', 2);\n}" },
-				{ "type": "playSound", "name": "item.mp3" },
-				{ "type": "tip", "text": "章提升到二阶" }
-			], null, null, null, true);
-		}
+		if (rid == 'darkKnight' && /^base_/.test(core.status.floorId || '') && core.hasFlag('proof')) bossProofUp('proofUpKnight', 2);
 		return r;
 	};
-	// 二周目：在幻境最上层打倒黑暗大法师本体（phant_10 的 (6,6)）后，章升到三阶
+	// 在幻境最上层打倒黑暗大法师本体（phant_10 的 (6,6)）后章升阶
 	var _afterBattleR2Mage = core.events.afterBattle;
 	core.events.afterBattle = function (enemyId, x, y, callback) {
 		var rid = enemyId == '__testMonster__' ? ((core.material.enemys.__testMonster__ || {}).id || enemyId) : enemyId;
 		var r = _afterBattleR2Mage.apply(this, arguments);
-		if (core.getFlag('round2', 0) == 1 && rid == 'blackMagician' && core.status.floorId == 'phant_10' && x == 6 && y == 6
-			&& core.hasFlag('proof') && core.getFlag('proof_lv', 1) < 3) {
-			core.insertAction([
-				{ "type": "function", "function": "function(){\ncore.setFlag('proof_lv', 3);\n}" },
-				{ "type": "playSound", "name": "item.mp3" },
-				{ "type": "tip", "text": "章提升到三阶" }
-			], null, null, null, true);
-		}
+		if (rid == 'blackMagician' && core.status.floorId == 'phant_10' && x == 6 && y == 6 && core.hasFlag('proof')) bossProofUp('proofUpMage', 3);
 		return r;
 	};
 	// 地下 4 层的骑士剑 (2,2)、骑士盾 (2,10)：从地下 5 层走暗道去地下 11 层以后才出现（两周目一样）
+	// 只出现一次：这两格有事件条目，捡走后图块只是被隐藏，再 show 就会重新刷出来
 	this.showKnightGear = function (floorId) {
-		[[2, 2], [2, 10]].forEach(function (p) {
+		if (core.hasFlag('knightGearShown')) return;
+		core.setFlag('knightGearShown', 1);
+		var oldSave = core.hasFlag('enteredB11Altar'); // 走过暗道却没有 knightGearShown：旧存档，不知道捡没捡过
+		var rank = function (flag) { return +(String(core.getFlag(flag, '')).match(/\d$/) || [0])[0]; };
+		[[2, 2, 'curWeapon'], [2, 10, 'curArmor']].forEach(function (p) {
+			if (oldSave && rank(p[2]) >= 3) return; // 已经装备骑士级或更好的，说明捡过了
 			var b = core.getBlock(p[0], p[1], floorId, true);
 			if (b && b.block.disable) core.showBlock(p[0], p[1], floorId);
 		});
@@ -1662,8 +1692,8 @@ var plugins_bb40132b_638b_4a9f_b028_d3fe47acc8d1 =
 		}
 		// 二周目：从地下 5 层走暗道（传送点）去地下 11 层，记为“走了暗道”；还没打败黑暗骑士的话，20 层四角的法阵重新熄灭
 		if (!fromLoad && /^base_(plus_)?11$/.test(floorId) && core.status.floorId == floorId.replace('11', '5')) {
-			core.setFlag('enteredB11Altar', 1);
 			core.plugin.showKnightGear(floorId.replace('11', '4')); // 走暗道 = 选择先打骑士区域：地下 4 层的骑士剑、骑士盾出现
+			core.setFlag('enteredB11Altar', 1);
 			// 一周目：章还没到二阶时，20 层的幻境入口关掉（落地就生效，不用等走到杰克那一格）
 			if (core.getFlag('round2', 0) != 1 && core.getFlag('proof_lv', 0) < 2) {
 				[[4, 4], [4, 8], [8, 4], [8, 8]].forEach(function (p) { core.hideBlock(p[0], p[1], 'floor_20'); });
@@ -1801,7 +1831,11 @@ var plugins_bb40132b_638b_4a9f_b028_d3fe47acc8d1 =
 	var _updateViewportB17 = core.control.updateViewport;
 	core.control.updateViewport = function () {
 		if (main.mode == 'play' && core.status.floorId == 'base_17' && core.status.hero && !core.plugin.b17Open()) {
-			core.bigmap.offsetX = 12 * 32; core.bigmap.offsetY = 12 * 32;
+			// 用水之宝石潜到外圈时不锁镜头，否则勇士会跑出画面
+			var _loc = core.status.hero.loc;
+			if (_loc.x >= 12 && _loc.x <= 24 && _loc.y >= 12 && _loc.y <= 24) {
+				core.bigmap.offsetX = 12 * 32; core.bigmap.offsetY = 12 * 32;
+			}
 		}
 		return _updateViewportB17.apply(this, arguments);
 	};
@@ -2751,9 +2785,10 @@ var plugins_bb40132b_638b_4a9f_b028_d3fe47acc8d1 =
 		if (main.mode == 'editor') return;
 		var clientWidth = main.dom.body.clientWidth, clientHeight = main.dom.body.clientHeight;
 		var CANVAS_WIDTH = core.__PIXELS__ + 6, BAR_WIDTH = Math.round(core.__PIXELS__ * 0.31) + 3;
-		if (clientWidth >= CANVAS_WIDTH + BAR_WIDTH || (clientWidth > clientHeight && clientHeight < CANVAS_WIDTH)) {
+		// 横屏时地图两边各有一栏：左边状态栏，右边道具栏（见 itemBar）
+		if (clientWidth >= CANVAS_WIDTH + 2 * BAR_WIDTH || (clientWidth > clientHeight && clientHeight < CANVAS_WIDTH)) {
 			core.domStyle.isVertical = false;
-			core.domStyle.scale = FIT * Math.min(clientHeight / CANVAS_WIDTH, clientWidth / (CANVAS_WIDTH + BAR_WIDTH));
+			core.domStyle.scale = FIT * Math.min(clientHeight / CANVAS_WIDTH, clientWidth / (CANVAS_WIDTH + 2 * BAR_WIDTH));
 		} else {
 			core.domStyle.isVertical = true;
 			var col0 = core.flags.statusCanvas ? (core.flags.statusCanvasRowsOnMobile || 3) : 3;
@@ -2782,14 +2817,243 @@ var plugins_bb40132b_638b_4a9f_b028_d3fe47acc8d1 =
 		};
 		this._doResize(obj);
 		if (!core.domStyle.isVertical) {
-			// 总宽 = 左栏 + 地图外框，避免两者之间出现缝隙
-			var total = BAR_WIDTH * core.domStyle.scale + obj.outerSize;
+			// 总宽 = 左栏 + 地图外框 + 右栏，避免之间出现缝隙
+			var barWidth = BAR_WIDTH * core.domStyle.scale, total = 2 * barWidth + obj.outerSize;
 			core.dom.gameGroup.style.width = total + 'px';
 			core.dom.gameGroup.style.left = (clientWidth - total) / 2 + 'px';
+			// 引擎把地图和换层遮罩贴在最右边，这里让出右栏的位置
+			core.dom.gameDraw.style.right = barWidth + 'px';
+			core.dom.floorMsgGroup.style.right = barWidth + 3 + 'px';
+			if (core.domStyle.scale >= 1) core.dom.musicBtn.style.right = (clientWidth - total) / 2 + 'px';
+		} else {
+			core.dom.floorMsgGroup.style.right = '';
 		}
 		this.setToolbarButton();
 		core.updateStatusBar();
 	};
+},
+    "itemBar": function () {
+	// 右侧常驻道具栏（仿 50 层魔塔）：横屏时显示在地图右边，竖屏隐藏（竖屏有工具栏按钮）。
+	// 道具按优先级依次排列，不固定格子（可能拥有的道具比格子多）。
+	if (main.mode != 'play') return;
+
+	// 逻辑大小 129*416，和左栏的 menu_pc.png 一致。前 5 行在上框（永久道具），后 3 行在下框（消耗道具）
+	var WIDTH = 129, HEIGHT = 416, COLS = [13, 48, 83], ROWS = [14, 53, 92, 131, 170, 226, 261, 296];
+	var UPPER = 15, LOWER = 9;
+	var ORDER_CONSTANTS = ['book', 'fly', 'cross', 'coin', 'snow', 'shoes', 'hammer', 'keydoor', 'magicKey',
+		'proof_brave', 'proof_tyrant', 'proof_sage', 'sword0', 'shield0'];
+	var ORDER_TOOLS = ['pickaxe', 'icePickaxe', 'bomb', 'centerFly', 'Lvupfly', 'upFly', 'downFly', 'earthquake',
+		'bigKey', 'greenKey', 'steelKey', 'curseWine', 'superWine', 'moneyPocket'];
+	var INFO_X = 13, INFO_WIDTH = 102, INFO_LINES = 4;
+
+	var selected = null, hover = -1; // selected 是道具 id，hover 是格子下标
+
+	var bar = document.createElement('div'), canvas = document.createElement('canvas'), ctx = canvas.getContext('2d');
+	bar.id = 'itemBar';
+	bar.style.cssText = "position:absolute;top:0;right:0;box-sizing:border-box;z-index:185;display:none;background:url('project/images/ground.png') repeat;";
+	canvas.style.cssText = 'position:absolute;top:0;left:0;';
+	// 按 2 倍分辨率绘制，放大后文字依然清晰
+	canvas.width = WIDTH * 2;
+	canvas.height = HEIGHT * 2;
+	ctx.setTransform(2, 0, 0, 2, 0, 0);
+	ctx.imageSmoothingEnabled = false;
+	bar.appendChild(canvas);
+	core.dom.gameGroup.appendChild(bar);
+
+	core.registerResize('itemBar', function (obj) {
+		if (core.domStyle.isVertical) {
+			bar.style.display = 'none';
+			return;
+		}
+		var width = obj.BAR_WIDTH * core.domStyle.scale;
+		bar.style.display = 'block';
+		bar.style.width = width + 'px';
+		bar.style.height = obj.outerSize + 'px';
+		bar.style.borderTop = bar.style.borderRight = bar.style.borderBottom = obj.border;
+		canvas.style.width = width - 3 + 'px';
+		canvas.style.height = obj.outerSize - 6 + 'px';
+	});
+
+	var ownedIds = function (owned, order) {
+		var rank = function (id) { var i = order.indexOf(id); return i < 0 ? order.length : i; };
+		return Object.keys(owned || {}).filter(function (id) {
+			return owned[id] > 0 && core.material.items[id];
+		}).sort(function (a, b) {
+			return rank(a) - rank(b) || (a < b ? -1 : 1);
+		});
+	};
+	// 各格的道具 id：上框放永久道具，下框放消耗道具，放不下的才去占另一框的空位
+	var getSlots = function () {
+		var items = core.status.hero.items;
+		var constants = ownedIds(items.constants, ORDER_CONSTANTS), tools = ownedIds(items.tools, ORDER_TOOLS);
+		var upper = constants.slice(0, UPPER).concat(tools.slice(LOWER)).slice(0, UPPER);
+		var lower = tools.slice(0, LOWER).concat(constants.slice(UPPER)).slice(0, LOWER);
+		while (upper.length < UPPER) upper.push(null);
+		return upper.concat(lower);
+	};
+	var slotX = function (i) { return COLS[i % 3]; };
+	var slotY = function (i) { return ROWS[Math.floor(i / 3)]; };
+	var slotAt = function (e) {
+		var rect = canvas.getBoundingClientRect();
+		var x = (e.clientX - rect.left) / rect.width * WIDTH, y = (e.clientY - rect.top) / rect.height * HEIGHT;
+		for (var i = 0; i < UPPER + LOWER; i++) {
+			if (x >= slotX(i) - 1 && x < slotX(i) + 33 && y >= slotY(i) - 1 && y < slotY(i) + 33) return i;
+		}
+		return -1;
+	};
+
+	// 和 drawStatusBar 里不画内容的条件一致
+	var itemsHidden = function () {
+		return (!core.domStyle.showStatusBar && !core.getFlag('aStupidWay', false)) || core.getFlag('customStatusBarHidden', false);
+	};
+	// 没有使用效果的道具（幸运金币、十字架等）只能查看
+	var isUsable = function (id) {
+		return !!(core.items.useItemEffect[id] || core.items.useItemEvent[id]);
+	};
+	// canUseItem 会改写 core.status.event.data/ui，而重绘可能发生在事件进行中，查询完必须还原
+	var canUseNow = function (id) {
+		var event = core.status.event, data = event.data, ui = event.ui;
+		var able = core.canUseItem(id);
+		event.data = data;
+		event.ui = ui;
+		return able;
+	};
+	var fitText = function (text, width) {
+		if (ctx.measureText(text).width <= width) return text;
+		while (text && ctx.measureText(text + '…').width > width) text = text.slice(0, -1);
+		return text + '…';
+	};
+	var drawOutline = function (i, style, lineWidth) {
+		ctx.strokeStyle = style;
+		ctx.lineWidth = lineWidth;
+		ctx.strokeRect(slotX(i) - 1, slotY(i) - 1, 34, 34);
+	};
+	var drawSlot = function (i, id) {
+		var x = slotX(i), y = slotY(i), count = core.itemCount(id);
+		// 不用 drawIcon：折断的剑、残破的盾不在地图上，getBlockInfo 取不到它们
+		ctx.drawImage(core.material.images.items, 0, 32 * core.material.icons.items[id], 32, 32, x, y, 32, 32);
+		if (core.material.items[id].cls == 'tools' && count > 1) {
+			ctx.textAlign = 'right';
+			core.fillBoldText(ctx, count, x + 31, y + 31, '#FFFFFF', 'bold 11px uiFont');
+		}
+	};
+	var drawInfo = function (id) {
+		ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
+		ctx.fillRect(INFO_X, 332, INFO_WIDTH, 1);
+		if (!id) {
+			ctx.textAlign = 'center';
+			ctx.fillStyle = '#AAAAAA';
+			ctx.font = '12px uiFont';
+			ctx.fillText('点击道具查看', WIDTH / 2, 372);
+			return;
+		}
+		var item = core.material.items[id], text = item.text || '该道具暂无描述。';
+		try { text = core.replaceText(text); } catch (e) { }
+		ctx.textAlign = 'left';
+		ctx.fillStyle = '#FFFFFF';
+		ctx.font = 'bold 13px uiFont';
+		ctx.fillText(fitText(item.name, INFO_WIDTH), INFO_X, 348);
+		ctx.font = '11px uiFont';
+		var lineY = function (n) { return 363 + 13 * n; };
+		var showHint = id == selected && canUseNow(id), maxLines = showHint ? INFO_LINES - 1 : INFO_LINES;
+		var lines = core.splitLines(ctx, text, INFO_WIDTH);
+		if (lines.length > maxLines) lines = lines.slice(0, maxLines - 1).concat(fitText(lines.slice(maxLines - 1).join(''), INFO_WIDTH));
+		ctx.fillStyle = '#DDDDDD';
+		lines.forEach(function (line, n) { ctx.fillText(line, INFO_X, lineY(n)); });
+		if (showHint) {
+			ctx.fillStyle = '#FFD700';
+			ctx.fillText('再点一次使用', INFO_X, lineY(INFO_LINES - 1));
+		}
+	};
+	var draw = function () {
+		ctx.clearRect(0, 0, WIDTH, HEIGHT);
+		canvas.style.cursor = 'default';
+		if (core.domStyle.isVertical) return;
+		// 开局前和左栏一样只露出地面背景
+		if (!core.isPlaying() || !core.getFlag('gameStart')) {
+			selected = null;
+			return;
+		}
+		var background = core.material.images.images['menu_pc.png'];
+		if (background) {
+			ctx.drawImage(background, 0, 0, WIDTH, HEIGHT);
+			// 把下面两个框并成一个：用框内的一段盖住中间的分隔
+			ctx.drawImage(background, 0, 300, WIDTH, 16, 0, 331, WIDTH, 16);
+		}
+		if (itemsHidden()) return;
+		var slots = getSlots();
+		if (selected && slots.indexOf(selected) < 0) selected = null;
+		slots.forEach(function (id, i) { if (id) drawSlot(i, id); });
+		if (slots[hover]) {
+			canvas.style.cursor = 'pointer';
+			drawOutline(hover, 'rgba(255, 255, 255, 0.8)', 1);
+		}
+		if (selected) drawOutline(slots.indexOf(selected), '#FFD700', 1.5);
+		drawInfo(slots[hover] || selected);
+	};
+	this.drawItemBar = draw;
+
+	var clickSlot = function (i) {
+		if (!core.isPlaying() || !core.getFlag('gameStart') || itemsHidden()) return;
+		if (core.isReplaying() || core.status.lockControl || core.isMoving()) return;
+		var id = getSlots()[i] || null;
+		if (id == 'book') {
+			selected = null;
+			// 不能用时 openBook 会锁住操作却不打开界面，必须先判断
+			if (canUseNow('book')) core.openBook(true);
+			else {
+				core.playSound('warning.mp3');
+				core.drawTip('当前无法使用' + core.material.items.book.name);
+			}
+		} else if (id == 'fly') {
+			selected = null;
+			if (core.canUseItem('fly')) core.useFly(true);
+			else core.playSound('warning.mp3');
+		} else if (id && id == selected && isUsable(id)) {
+			selected = null;
+			core.tryUseItem(id);
+		} else {
+			selected = id; // 第一次点击只查看；点空格取消选中
+		}
+		draw();
+	};
+	canvas.onclick = function (e) {
+		try {
+			e.preventDefault();
+			clickSlot(slotAt(e));
+		} catch (err) {
+			main.log(err);
+		}
+	};
+	canvas.onmousemove = function (e) {
+		var i = slotAt(e);
+		if (i == hover) return;
+		hover = i;
+		draw();
+	};
+	canvas.onmouseleave = function () {
+		if (hover < 0) return;
+		hover = -1;
+		draw();
+	};
+
+	['updateStatusBar', 'showStatusBar', 'hideStatusBar'].forEach(function (name) {
+		var _func = core.control[name];
+		core.control[name] = function () {
+			var r = _func.apply(this, arguments);
+			try { draw(); } catch (e) { main.log(e); }
+			return r;
+		};
+	});
+	// 原地转向不会刷新状态栏，这里补一下，免得“再点一次使用”的提示过期
+	var lastLoc = null;
+	core.registerAnimationFrame('itemBarHint', true, function () {
+		if (!selected || !core.status.hero) return;
+		var loc = core.status.hero.loc, now = loc.x + ',' + loc.y + ',' + loc.direction;
+		if (now == lastLoc) return;
+		lastLoc = now;
+		draw();
+	});
 },
     "achievements": function () {
 	// 成就系统（仿魔塔黑曜石）：成就记录在全局变量里，不跟存档；达成时弹提示。

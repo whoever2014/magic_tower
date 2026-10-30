@@ -128,16 +128,6 @@ main.floors.floor_20=
                 "true": [
                     "\t[勇士,hero]章在发光！",
                     {
-                        "type": "hide",
-                        "loc": [
-                            [
-                                6,
-                                1
-                            ]
-                        ],
-                        "time": 500
-                    },
-                    {
                         "type": "show",
                         "loc": [
                             [

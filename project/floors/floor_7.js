@@ -243,6 +243,11 @@ main.floors.floor_7=
                                                 "type": "playSound",
                                                 "name": "shop.mp3"
                                             },
+                                            {
+                                                "type": "tip",
+                                                "text": "获得 蓝钥匙",
+                                                "icon": "blueKey"
+                                            },
                                             "\t[商人,woman]成交！拿好你的蓝钥匙。",
                                             {
                                                 "type": "hide",

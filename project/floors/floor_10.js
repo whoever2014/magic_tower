@@ -353,6 +353,13 @@ main.floors.floor_10=
                 "steps": [
                     "up",
                     "up",
+                    "up",
+                    "up",
+                    "up",
+                    "up",
+                    "up",
+                    "up",
+                    "up",
                     "up"
                 ]
             }

@@ -450,51 +450,65 @@ editor.prototype.drawInitData = function (icons) {
     var sumWidth = 0;
     editor.widthsX = {};
     editor.uivalues.folded = core.getLocalStorage('folded', false);
-    // editor.uivalues.folded = true;
     editor.uivalues.foldPerCol = core.getLocalStorage('foldPerCol', 50);
-    // var imgNames = Object.keys(images);  //还是固定顺序吧；
     editor.uivalues.lastUsed = core.getLocalStorage("lastUsed", []);
-    var imgNames = ["terrains", "animates", "enemys", "enemy48", "items", "npcs", "autotile"]; // npc48 未使用，编辑器中隐藏
 
-    for (var ii = 0; ii < imgNames.length; ii++) {
-        var img = imgNames[ii], tempy = 0;
-        if (img == 'autotile') {
-            var autotiles = images[img];
-            for (var im in autotiles) {
-                tempy += autotiles[im].height;
-            }
-            var tempx = editor.uivalues.folded ? 32 : 3 * 32;
-            editor.widthsX[img] = [img, sumWidth / 32, (sumWidth + tempx) / 32, tempy];
-            sumWidth += tempx;
-            maxHeight = Math.max(maxHeight, tempy);
-            continue;
-        }
-        var width = images[img].width, height = images[img].height, mh = height;
+    // ===== 素材区按“列”组装 =====
+    // 每一列取某张素材图里的若干行（rows 省略 = 整张图），按顺序排在一起；点选时用 widthsX[key][4] 把显示的行号换算回素材图里的行号。
+    // 不在这里列出的素材（enemy48、npc48、autotile 大块草地/水面/石头、tilesets 如 magictower.png、
+    // NPC 第 12 行以后的天使/元素生物，以及下面 HIDE 表里的图块）只是不在素材区显示，地图上已经用到的照常渲染。
+    var range = function (a, b) { var r = []; for (var i = a; i < b; i++) r.push(i); return r; };
+    // 素材区里不显示的图块（按名字；地图上已经放了的照常渲染）。以后要隐藏，往这里加名字即可
+    var HIDE = {
+        terrains: ['greenDoor'],
+        animates: ['A384', 'portal', 'A385', 'poisonNet', 'weakNet', 'curseNet', 'upPortal', 'water'],
+        enemys: ['skeletonSwordsman', 'ghostSkeletonRed', 'soldierYellow', 'soldierRed']
+    };
+    var hiddenRows = function (img) {
+        var ic = (icons || core.icons.icons)[img] || {};
+        return (HIDE[img] || []).map(function (id) { return ic[id]; }).filter(function (r) { return r != null; });
+    };
+    var pick = function (img, a, b) {
+        var hide = hiddenRows(img);
+        return range(a || 0, b == null ? images[img].height / (img.endsWith('48') ? 48 : 32) : b).filter(function (r) { return hide.indexOf(r) < 0; });
+    };
+    var cols = [
+        { key: 'terrains', img: 'terrains', rows: pick('terrains', 0, 46) },   // 地形（成就、图鉴另外放在最右）
+        { key: 'animates', img: 'animates', rows: pick('animates') },
+        { key: 'enemys', img: 'enemys', rows: pick('enemys') },
+        { key: 'items', img: 'items' },
+        { key: 'npcs', img: 'npcs', rows: range(0, 12) },                     // 老人、商人、小偷、仙子、商店
+        { key: 'terrains#ach', img: 'terrains', rows: range(46, 116) },        // 成就
+        { key: 'terrains#bst', img: 'terrains', rows: range(116, images.terrains.height / 32) } // 怪物图鉴
+    ];
+    var colImage = function (c) {
+        var src = images[c.img];
+        if (!c.rows) return src;
+        var cv = document.createElement('canvas'), h = c.img.endsWith('48') ? 48 : 32;
+        cv.width = src.width; cv.height = c.rows.length * h;
+        var ctx = cv.getContext('2d');
+        c.rows.forEach(function (r, i) { ctx.drawImage(src, 0, r * h, src.width, h, 0, i * h, src.width, h); });
+        cv.style.position = 'absolute'; // 和素材区里的 <img> 一样绝对定位
+        return cv;
+    };
+    cols.forEach(function (c) { c.image = colImage(c); });
+
+    cols.forEach(function (c) {
+        var width = c.image.width, height = c.image.height, mh = height;
         if (editor.uivalues.folded) {
-            var per_height = (img == 'enemy48' || img == 'npc48' ? 48 : 32);
+            var per_height = c.img.endsWith('48') ? 48 : 32;
             width = Math.ceil(height / per_height / editor.uivalues.foldPerCol) * 32;
             if (width > 32) mh = per_height * editor.uivalues.foldPerCol;
         }
-        editor.widthsX[img] = [img, sumWidth / 32, (sumWidth + width) / 32, height];
+        editor.widthsX[c.key] = [c.img, sumWidth / 32, (sumWidth + width) / 32, height, c.rows || null];
         sumWidth += width;
         maxHeight = Math.max(maxHeight, mh + 64);
-    }
-    var tilesets = images.tilesets;
-    for (var ii in core.tilesets) {
-        var img = core.tilesets[ii];
-        editor.widthsX[img] = [img, sumWidth / 32, (sumWidth + tilesets[img].width) / 32, tilesets[img].height];
-        sumWidth += tilesets[img].width;
-        maxHeight = Math.max(maxHeight, tilesets[img].height);
-    }
+    });
 
     var fullWidth = ~~(sumWidth * ratio);
     var fullHeight = ~~(maxHeight * ratio);
-
-    /*
-    if (fullWidth > edata.width) edata.style.width = (edata.width = fullWidth) / ratio + 'px';
-    edata.style.height = (edata.height = fullHeight) / ratio + 'px';
-    */
     var iconImages = document.getElementById('iconImages');
+    iconImages.innerHTML = '';
     iconImages.style.width = (iconImages.width = fullWidth) / ratio + 'px';
     iconImages.style.height = (iconImages.height = fullHeight) / ratio + 'px';
     var drawImage = function (image, x, y) {
@@ -503,69 +517,49 @@ editor.prototype.drawInitData = function (icons) {
         iconImages.appendChild(image);
     }
 
-    var nowx = 0, nowy = 0;
-    for (var ii = 0; ii < imgNames.length; ii++) {
-        var img = imgNames[ii];
-        if (img == 'terrains') {
-            (function(image,nowx){
+    var nowx = 0;
+    cols.forEach(function (c) {
+        if (c.key == 'terrains') {
+            // 第 0 格是“清除”，第 1 格是空气墙，地形从第 2 格开始
+            (function (image, nowx) {
+                if (!image) return;
                 if (image.complete) {
                     drawImage(image, nowx, 32);
                     core.material.images.airwall = image;
-                    delete(editor.airwallImg);
+                    delete (editor.airwallImg);
                 } else image.onload = function () {
                     drawImage(image, nowx, 32);
                     core.material.images.airwall = image;
-                    delete(editor.airwallImg);
+                    delete (editor.airwallImg);
                     editor.updateMap();
                 }
-            })(editor.airwallImg,nowx);
+            })(editor.airwallImg, nowx);
             if (editor.uivalues.folded) {
-                // --- 单列 & 折行
-                var subimgs = core.splitImage(images[img], 32, editor.uivalues.foldPerCol * 32);
-                var frames = images[img].width / 32;
-                for (var i = 0; i < subimgs.length; i+=frames) {
-                    drawImage(subimgs[i], nowx, i==0?2*32:0);
+                var subimgs = core.splitImage(c.image, 32, editor.uivalues.foldPerCol * 32);
+                var frames = c.image.width / 32;
+                for (var i = 0; i < subimgs.length; i += frames) {
+                    drawImage(subimgs[i], nowx, i == 0 ? 2 * 32 : 0);
                     nowx += 32;
                 }
+            } else {
+                drawImage(c.image, nowx, 32 * 2);
+                nowx += c.image.width;
             }
-            else {
-                drawImage(images[img], nowx, 32*2);
-                nowx += images[img].width;
-            }
-            continue;
-        }
-        if (img == 'autotile') {
-            var autotiles = images[img];
-            var tempx = editor.uivalues.folded ? 32 : 96;
-            for (var im in autotiles) {
-                var subimgs = core.splitImage(autotiles[im], tempx, autotiles[im].height);
-                drawImage(subimgs[0], nowx, nowy);
-                nowy += autotiles[im].height;
-            }
-            nowx += tempx;
-            continue;
+            return;
         }
         if (editor.uivalues.folded) {
-            // --- 单列 & 折行
-            var per_height = img.endsWith('48') ? 48 : 32;
-            var subimgs = core.splitImage(images[img], 32, editor.uivalues.foldPerCol * per_height);
-            var frames = images[img].width / 32;
-            for (var i = 0; i < subimgs.length; i+=frames) {
+            var per_height = c.img.endsWith('48') ? 48 : 32;
+            var subimgs = core.splitImage(c.image, 32, editor.uivalues.foldPerCol * per_height);
+            var frames = c.image.width / 32;
+            for (var i = 0; i < subimgs.length; i += frames) {
                 drawImage(subimgs[i], nowx, 0);
                 nowx += 32;
             }
+        } else {
+            drawImage(c.image, nowx, 0);
+            nowx += c.image.width;
         }
-        else {
-            drawImage(images[img], nowx, 0);
-            nowx += images[img].width;
-        }
-    }
-    for (var ii in core.tilesets) {
-        var img = core.tilesets[ii];
-        drawImage(tilesets[img], nowx, 0);
-        nowx += tilesets[img].width;
-    }
-    //editor.mapInit();
+    });
 }
 
 editor.prototype.buildMark = function(){

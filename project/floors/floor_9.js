@@ -116,34 +116,34 @@ main.floors.floor_9=
                 "type": "if",
                 "condition": "flag:buyBluePotion9F==1",
                 "true": [
-                    "\t[商人,woman]蓝血瓶只有那一瓶，已经卖给你啦。\n楼上就是骷髅队长的地盘，祝你好运。",
+                    "\t[商人,woman]红血瓶只有那一瓶，已经卖给你啦。\n楼上就是骷髅队长的地盘，祝你好运。",
                     {
                         "type": "hide",
                         "time": 500
                     }
                 ],
                 "false": [
-                    "\t[商人,woman]楼上就是骷髅队长的地盘了。\n我这儿有一瓶蓝血瓶，能回复200点体力，只要20金币，要不要？",
+                    "\t[商人,woman]楼上就是骷髅队长的地盘了。\n我这儿有一瓶红血瓶，能回复50点体力，只要10金币，要不要？",
                     {
                         "type": "choices",
-                        "text": "\t[商人,woman]20金币，买一瓶蓝血瓶（体力+200）？",
+                        "text": "\t[商人,woman]10金币，买一瓶红血瓶（体力+50）？",
                         "choices": [
                             {
-                                "text": "购买（20金币）",
+                                "text": "购买（10金币）",
                                 "action": [
                                     {
                                         "type": "if",
-                                        "condition": "status:money>=20",
+                                        "condition": "status:money>=10",
                                         "true": [
                                             {
                                                 "type": "addValue",
                                                 "name": "status:money",
-                                                "value": "-20"
+                                                "value": "-10"
                                             },
                                             {
                                                 "type": "addValue",
                                                 "name": "status:hp",
-                                                "value": "200"
+                                                "value": "50"
                                             },
                                             {
                                                 "type": "setValue",
@@ -154,14 +154,19 @@ main.floors.floor_9=
                                                 "type": "playSound",
                                                 "name": "shop.mp3"
                                             },
-                                            "\t[商人,woman]成交！体力回复了200点。",
+                                            {
+                                                "type": "tip",
+                                                "text": "获得 红血瓶，体力 +50",
+                                                "icon": "redPotion"
+                                            },
+                                            "\t[商人,woman]成交！体力回复了50点。",
                                             {
                                                 "type": "hide",
                                                 "time": 500
                                             }
                                         ],
                                         "false": [
-                                            "\t[商人,woman]你的金币不够啊，凑够20金币再来吧。"
+                                            "\t[商人,woman]你的金币不够啊，凑够10金币再来吧。"
                                         ]
                                     }
                                 ]

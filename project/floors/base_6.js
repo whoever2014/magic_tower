@@ -90,7 +90,6 @@ main.floors.base_6=
                     "down",
                     "down",
                     "down",
-                    "down",
                     "down"
                 ]
             },
