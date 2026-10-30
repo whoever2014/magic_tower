@@ -1828,16 +1828,29 @@ var plugins_bb40132b_638b_4a9f_b028_d3fe47acc8d1 =
 		if (core.plugin.b17Open() || (x >= 12 && x <= 24 && y >= 12 && y <= 24)) return { id: 'base_17', x: x, y: y };
 		return null;
 	};
+	// 用水之宝石潜到外圈时不锁镜头，否则勇士会跑出画面
+	var b17CameraLocked = function () {
+		if (main.mode != 'play' || core.status.floorId != 'base_17' || !core.status.hero || core.plugin.b17Open()) return false;
+		var loc = core.status.hero.loc;
+		return loc.x >= 12 && loc.x <= 24 && loc.y >= 12 && loc.y <= 24;
+	};
 	var _updateViewportB17 = core.control.updateViewport;
 	core.control.updateViewport = function () {
-		if (main.mode == 'play' && core.status.floorId == 'base_17' && core.status.hero && !core.plugin.b17Open()) {
-			// 用水之宝石潜到外圈时不锁镜头，否则勇士会跑出画面
-			var _loc = core.status.hero.loc;
-			if (_loc.x >= 12 && _loc.x <= 24 && _loc.y >= 12 && _loc.y <= 24) {
-				core.bigmap.offsetX = 12 * 32; core.bigmap.offsetY = 12 * 32;
-			}
+		if (b17CameraLocked()) {
+			core.bigmap.offsetX = 12 * 32; core.bigmap.offsetY = 12 * 32;
 		}
 		return _updateViewportB17.apply(this, arguments);
+	};
+	// 引擎按“镜头跟随勇士”的位置画勇士；镜头锁住时要把勇士层挪回实际位置，否则勇士总显示在屏幕正中间
+	var _drawHeroB17 = core.control.drawHero;
+	core.control.drawHero = function (status, offset) {
+		var r = _drawHeroB17.apply(this, arguments);
+		if (!core.isPlaying() || core.status.gameOver || !b17CameraLocked()) return r;
+		var way = core.utils.scan[core.getHeroLoc('direction')], o = offset || 0;
+		var followX = core.clamp((core.getHeroLoc('x') - core.__HALF_SIZE__) * 32 + way.x * o, 0, 32 * core.bigmap.width - core.__PIXELS__);
+		var followY = core.clamp((core.getHeroLoc('y') - core.__HALF_SIZE__) * 32 + way.y * o, 0, 32 * core.bigmap.height - core.__PIXELS__);
+		core.setGameCanvasTranslate('hero', followX - core.bigmap.offsetX, followY - core.bigmap.offsetY);
+		return r;
 	};
 	this.openB17 = function () {
 		core.setFlag('zenoBeaten', 1);
