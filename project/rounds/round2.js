@@ -59,16 +59,6 @@ main.rounds[2] = {
      "time": 0
     }
    ]
-  },
-  "props": {
-   "upFloor": [
-    11,
-    1
-   ],
-   "downFloor": [
-    11,
-    1
-   ]
   }
  },
  "base_11": {
@@ -80,25 +70,14 @@ main.rounds[2] = {
   "events": {
    "10,5": null,
    "10,11": null
-  },
-  "changeFloor": {
-   "6,1": {
-    "floorId": "floor_0",
-    "loc": [
-     6,
-     11
-    ],
-    "time": 500
-   }
   }
  },
  "base_13": {
   "map": {
-   "5,2": 0
+   "4,3": 0
   },
   "events": {
-   "5,2": null,
-   "10,1": null
+   "4,3": null
   }
  },
  "base_15": {
@@ -311,7 +290,7 @@ main.rounds[2] = {
  },
  "base_7": {
   "map": {
-   "9,3": 370,
+   "9,3": 0,
    "9,11": 0
   },
   "events": {
@@ -419,20 +398,7 @@ main.rounds[2] = {
  },
  "base_9": {
   "map": {
-   "3,1": 0,
-   "9,1": 0,
-   "11,1": 0,
-   "1,3": 0,
-   "11,3": 0,
-   "7,4": 64,
-   "7,5": 31,
-   "1,6": 0,
-   "11,6": 0,
-   "1,9": 0,
-   "11,9": 0,
-   "1,11": 0,
-   "3,11": 0,
-   "9,11": 0
+   "1,11": 0
   },
   "events": {
    "1,11": null
@@ -2813,15 +2779,15 @@ main.rounds[2] = {
    "1,1": 28,
    "2,1": 0,
    "3,1": 31,
-   "10,1": 0,
+   "9,1": 0,
    "1,2": 0,
    "3,2": 0,
    "11,10": 28,
    "10,11": 21
   },
   "events": {
-   "10,1": null,
-   "2,1": null
+   "2,1": null,
+   "9,1": null
   }
  },
  "floor_5": {
@@ -3002,7 +2968,7 @@ main.rounds[2] = {
    "11,4": [
     {
      "type": "setValue",
-     "name": "flag:steel_phant_plus_1",
+     "name": "flag:steel_phant_1",
      "value": "1"
     },
     {
@@ -3025,7 +2991,7 @@ main.rounds[2] = {
    "6,5": [
     {
      "type": "setValue",
-     "name": "flag:steel_phant_plus_2",
+     "name": "flag:steel_phant_2",
      "value": "1"
     },
     {
@@ -3048,7 +3014,7 @@ main.rounds[2] = {
    "3,11": [
     {
      "type": "setValue",
-     "name": "flag:steel_phant_plus_3",
+     "name": "flag:steel_phant_3",
      "value": "1"
     },
     {
@@ -3077,7 +3043,7 @@ main.rounds[2] = {
    "1,11": [
     {
      "type": "setValue",
-     "name": "flag:steel_phant_plus_4",
+     "name": "flag:steel_phant_4",
      "value": "1"
     },
     {
@@ -3106,7 +3072,7 @@ main.rounds[2] = {
    "4,6": [
     {
      "type": "setValue",
-     "name": "flag:steel_phant_plus_5",
+     "name": "flag:steel_phant_5",
      "value": "1"
     },
     {
@@ -3135,7 +3101,7 @@ main.rounds[2] = {
    "2,1": [
     {
      "type": "setValue",
-     "name": "flag:steel_phant_plus_6",
+     "name": "flag:steel_phant_6",
      "value": "1"
     },
     {
@@ -3161,7 +3127,7 @@ main.rounds[2] = {
    "5,9": [
     {
      "type": "setValue",
-     "name": "flag:steel_phant_plus_7",
+     "name": "flag:steel_phant_7",
      "value": "1"
     },
     {
@@ -3190,7 +3156,7 @@ main.rounds[2] = {
    "8,11": [
     {
      "type": "setValue",
-     "name": "flag:steel_phant_plus_8",
+     "name": "flag:steel_phant_8",
      "value": "1"
     },
     {
@@ -3213,7 +3179,7 @@ main.rounds[2] = {
    "8,7": [
     {
      "type": "setValue",
-     "name": "flag:steel_phant_plus_9",
+     "name": "flag:steel_phant_9",
      "value": "1"
     },
     {
@@ -3240,10 +3206,10 @@ main.rounds[2] = {
    "18,17": 0,
    "19,17": 0,
    "18,18": 0,
-   "17,19": 0,
    "35,22": 0,
    "34,28": 0,
-   "34,29": 0
+   "16,19": 0,
+   "33,29": 0
   },
   "events": {
    "1,11": null,
@@ -3251,13 +3217,31 @@ main.rounds[2] = {
    "2,13": null,
    "20,17": null,
    "35,22": null,
-   "34,29": null,
    "33,29": null
   }
  },
  "base_17": {
   "map": {
-   "29,2": 0
+   "29,2": 0,
+   "34,3": 306,
+   "36,3": 307,
+   "34,11": 0,
+   "36,11": 0
+  }
+ },
+ "magic_2": {
+  "map": {
+   "11,4": 0,
+   "3,7": 0,
+   "11,7": 0
+  },
+  "events": {
+   "3,7": null
+  }
+ },
+ "magic_3": {
+  "map": {
+   "11,4": 0
   }
  }
 };

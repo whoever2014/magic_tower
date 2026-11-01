@@ -212,6 +212,53 @@ var plugins_bb40132b_638b_4a9f_b028_d3fe47acc8d1 =
 	};
 	// 编辑器用：一周目下保存了某层后，更新它的本体
 	this.roundSetBase = function (id, data) { ROUND_BASE[id] = core.clone(data); };
+	// 读档界面画预览时还没切到存档的周目，而解压地图会直接改写传入的存档数据：二周目存档在标题界面被填成一周目地图，
+	// 自动存档读进来用的又是内存里同一份，于是“地图是一周目、事件是二周目”。所以解压前先复制，预览时把这一层临时切到存档的周目
+	var _loadFloorRound = core.maps.loadFloor;
+	core.maps.loadFloor = function (floorId, map) {
+		if (map && map.map) { map = Object.assign({}, map); map.map = core.clone(map.map); }
+		return _loadFloorRound.call(this, floorId, map);
+	};
+	var _drawRecordRound = core.ui._drawSLPanel_drawRecord;
+	core.ui._drawSLPanel_drawRecord = function (title, data) {
+		var f = data && data.hero && data.hero.flags, id = data && data.floorId, keep = id && core.floors[id];
+		var r = f ? (f.round || (f.round2 == 1 ? 2 : 1)) : core.plugin.roundNow;
+		if (keep && r != core.plugin.roundNow) {
+			var ov = r > 1 ? (main.rounds[r] || {})[id] : null, base = core.plugin.roundBase(id);
+			core.floors[id] = ov ? core.plugin.applyOverlay(base, ov) : core.clone(base);
+		}
+		var res = _drawRecordRound.apply(this, arguments);
+		if (keep) core.floors[id] = keep;
+		return res;
+	};
+	// 之前被这样污染过的二周目存档：差异格上存的如果还是一周目的内容，就当作没改过（读出来用二周目的）
+	this.healRoundSave = function (data) {
+		var n = core.plugin.roundNow, ov = n > 1 ? (main.rounds[n] || {}) : {};
+		for (var id in ov) {
+			var m = data.maps[id] && data.maps[id].map, g = ov[id].map, base = ROUND_BASE[id];
+			if (!m || !g || !base) continue;
+			for (var k in g) {
+				var p = k.split(','), x = +p[0], y = +p[1];
+				if (m[y] && m[y][x] === base.map[y][x] && g[k] !== base.map[y][x]) m[y][x] = -1;
+			}
+		}
+	};
+	// 打败巨龙进二周目：和标题选“二周目”一样从头开局（勇士、楼层、flag 全部重置），只是不再经过标题菜单和选周目
+	this.enterRound2 = function () {
+		core.resetGame(core.firstData.hero, core.status.hard, null, core.clone(core.initStatus.maps));
+		var nowLoc = core.clone(core.getHeroLoc());
+		core.setHeroLoc('x', -1);
+		core.setHeroLoc('y', -1);
+		core.utils.__init_seed();
+		core.events.setInitData();
+		core.clearStatusBar();
+		var plain = function (e) { return e.type != 'if' && e.type != 'while'; };
+		var todo = core.firstData.startCanvas.filter(plain).concat(core.firstData.startText.filter(plain));
+		todo.push({ "type": "function", "function": "function(){\ncore.firstData.floorId = 'floor_0';\ncore.setFlag('round2', 1);\ncore.setFlag('round', 2);\ncore.plugin.applyRound(2, true);\n}" });
+		core.insertAction(todo, null, null, function () {
+			core.events._startGame_afterStart(nowLoc, function () { core.drawTip('进入二周目'); });
+		});
+	};
 
 	// 在这里写的代码将会在【资源加载前】被执行，此时图片等资源尚未被加载。请勿在这里对包括bgm，图片等资源进行操作。
 
@@ -1862,6 +1909,8 @@ var plugins_bb40132b_638b_4a9f_b028_d3fe47acc8d1 =
 		var r = _afterBattleZeno.apply(this, arguments);
 		if (rid == 'redKing' && core.status.floorId == 'base_17')
 			core.insertAction([{ "type": "sleep", "time": 300 }, { "type": "function", "function": "function(){\ncore.plugin.openB17();\n}" }], null, null, null, true);
+		if (rid == 'magicDragon' && core.getFlag('round2', 0) != 1)
+			core.insertAction([{ "type": "setCurtain", "color": [0, 0, 0, 1], "time": 500 }, { "type": "function", "async": true, "function": "function(){\ncore.plugin.enterRound2();\n}" }], null, null, null, true);
 		return r;
 	};
 	var _afterChangeFloorB16 = core.events.afterChangeFloor;
