@@ -1247,7 +1247,9 @@ var functions_d6ad677b_427a_4623_b50f_a445a3b0ef8a =
 				'values': values,
 				'shops': {},
 				'version': core.firstData.version,
-				"time": new Date().getTime()
+				"time": new Date().getTime(),
+				// 修好读档混图之后存的档，地图是干净的，读档时不用再按旧存档修
+				'roundSaveClean': 1
 			};
 			if (core.flags.checkConsole) {
 				data.hashCode = core.utils.hashCode(data.hero);
@@ -1269,7 +1271,8 @@ var functions_d6ad677b_427a_4623_b50f_a445a3b0ef8a =
 			// 先把楼层切到这份存档的周目（一套楼层 + 周目差异），再按楼层解出地图状态
 			var _rf = (data.hero && data.hero.flags) || {};
 			if (core.plugin.applyRound) core.plugin.applyRound(_rf.round || (_rf.round2 == 1 ? 2 : 1));
-			if (core.plugin.healRoundSave) core.plugin.healRoundSave(data);
+			// 只修没有标记的旧存档：新存档里被打掉的怪也是空格，按旧存档修会把它变回来
+			if (core.plugin.healRoundSave && !data.roundSaveClean) core.plugin.healRoundSave(data);
 			core.resetGame(data.hero, data.hard, data.floorId, core.maps.loadMap(data.maps), data.values);
 			core.status.route = core.decodeRoute(data.route);
 			if (!(core.status.route instanceof Array)) core.status.route = []; // 抢救过的存档录像为空
